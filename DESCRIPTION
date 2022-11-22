@@ -7,3 +7,5 @@ Maintainer: Duncan Murdoch <murdoch.duncan@gmail.com>
 Description: Provides functions for support of concordances in R Markdown documents.
 License: GPL-2
 Encoding: UTF-8
+URL: https://github.com/dmurdoch/RmdConcord
+BugReports: https://github.com/dmurdoch/RmdConcord/issues
