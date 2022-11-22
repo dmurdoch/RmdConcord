@@ -1,7 +1,8 @@
+# -------------------------------------
 # These functions are taken from R-devel
 
 as.Rconcordance <- function(x, ...) {
-  UseMethod("as.Rconcordance")  
+  UseMethod("as.Rconcordance")
 }
 
 # This takes concordance strings and combines them
@@ -65,11 +66,11 @@ followConcordance <- function(conc, prevConcordance) {
     curLines <- conc$srcLine
     curFile <- rep_len(conc$srcFile, length(curLines))
     curOfs <- conc$offset
-    
+
     prevLines <- prevConcordance$srcLine
     prevFile <- rep_len(prevConcordance$srcFile, length(prevLines))
     prevOfs <- prevConcordance$offset
-    
+
     if (prevOfs) {
       prevLines <- c(rep(NA_integer_, prevOfs), prevLines)
       prevFile <- c(rep(NA_character_, prevOfs), prevFile)
@@ -82,7 +83,7 @@ followConcordance <- function(conc, prevConcordance) {
       prevFile <- c(prevFile, rep(NA_character_, n0 - n1))
     }
     new <- is.na(prevLines[curLines])
-    
+
     conc$srcFile <- ifelse(new, curFile,
                            prevFile[curLines])
     conc$srcLine <- ifelse(new, curLines,
@@ -97,20 +98,20 @@ as.character.Rconcordance <- function(x,
   concordance <- x
   offset <- concordance$offset
   src <- concordance$srcLine
-  
+
   result <- character()
-  
+
   srcfile <- rep_len(concordance$srcFile, length(src))
-  
+
   while (length(src)) {
     first <- src[1]
     if (length(unique(srcfile)) > 1)
       n <- which(srcfile != srcfile[1])[1] - 1
     else
       n <- length(srcfile)
-    
+
     vals <- with(rle(diff(src[seq_len(n)])), as.numeric(rbind(lengths, values)))
-    result <- c(result, paste0("concordance:", 
+    result <- c(result, paste0("concordance:",
                                targetfile, ":",
                                srcfile[1], ":",
                                if (offset) paste0("ofs ", offset, ":"),
@@ -122,11 +123,73 @@ as.character.Rconcordance <- function(x,
     src <- src[-drop]
     srcfile <- srcfile[-drop]
   }
-  result    
+  result
 }
+
+tidy_validate <-
+  function(f, tidy = "tidy") {
+    z <- suppressWarnings(system2(tidy,
+                                  c("-language en", "-qe",
+                                    ## <FIXME>
+                                    ## HTML Tidy complains about empty
+                                    ## spans, which may be ok.
+                                    ## To suppress all such complaints:
+                                    ##   "--drop-empty-elements no",
+                                    ## To allow experimenting for now:
+                                    Sys.getenv("_R_CHECK_RD_VALIDATE_RD2HTML_OPTS_",
+                                               "--drop-empty-elements no"),
+                                    ## </FIXME>
+                                    f),
+                                  stdout = TRUE, stderr = TRUE))
+    if(!length(z)) return(NULL)
+    ## Strip trailing \r from HTML Tidy output on Windows:
+    z <- trimws(z, which = "right")
+    ## (Alternatively, replace '$' by '[ \t\r\n]+$' in the regexp below.)
+    s <- readLines(f, warn = FALSE)
+    m <- regmatches(z,
+                    regexec("^line ([0-9]+) column ([0-9]+) - (.+)$",
+                            z))
+    m <- unique(do.call(rbind, m[lengths(m) == 4L]))
+    p <- m[, 2L]
+    concordance <- as.Rconcordance(grep("^<!-- concordance:", s, value = TRUE))
+    result <- cbind(line = p, col = m[, 3L], msg = m[, 4L], txt = s[as.numeric(p)])
+
+    if (!is.null(concordance))
+      result <- cbind(result, matchConcordance(p, concordance = concordance))
+
+    result
+  }
+
+# This function takes a location in a file and uses a concordance
+# object to find the corresponding location in the source for that
+# file.
+
+matchConcordance <- function(linenum, concordance) {
+  if (!all(c("offset", "srcLine", "srcFile") %in% names(concordance)))
+    stop("concordance is not valid")
+  linenum <- as.numeric(linenum)
+  srcLines <- concordance$srcLine
+  srcFile <- rep_len(concordance$srcFile, length(srcLines))
+  offset <- concordance$offset
+
+  result <- matrix(character(), length(linenum), 2,
+                   dimnames = list(NULL,
+                                   c("srcFile", "srcLine")))
+  for (i in seq_along(linenum)) {
+    if (linenum[i] <= concordance$offset)
+      result[i,] <- c("", "")
+    else
+      result[i,] <- c(srcFile[linenum[i] - offset],
+                      with(concordance, srcLine[linenum[i] - offset]))
+  }
+  result
+}
+# End of R-devel borrowings
+# -----------------------------------------------------------
 
 
 getDataposConcordance <- function(filename, newfilename,
+                                  rename = NULL,
                                   followConcordance = TRUE) {
   # read the file
   lines <- readLines(filename)
@@ -152,6 +215,9 @@ getDataposConcordance <- function(filename, newfilename,
     stop("No data-pos attributes found.")
   srcline[datapos] <- as.integer(sub(regexp, "\\2", lines[datapos]))
   srcfile[datapos] <- sub(regexp, "\\1", lines[datapos])
+  oldname <- names(rename)
+  for (i in seq_along(rename))
+    srcfile[datapos] <- sub(oldname[i], rename[i], srcfile[datapos], fixed = TRUE)
   # Remove the data-pos records now.  There might be several on a line
   # but we want to ignore them all
   lines[datapos] <- gsub("(<[^>]+) data-pos=\"[^\"]+\"", "\\1", lines[datapos])
@@ -177,10 +243,10 @@ getDataposConcordance <- function(filename, newfilename,
       } else
         break
     }
-      
-    concordance <- structure(list(offset = offset, 
-                                  srcLine = srcline[keep], 
-                                  srcFile = srcfile[keep]), 
+
+    concordance <- structure(list(offset = offset,
+                                  srcLine = srcline[keep],
+                                  srcFile = srcfile[keep]),
                              class = "Rconcordance")
     if (!is.null(prevConcordance))
       concordance <- followConcordance(concordance, prevConcordance)

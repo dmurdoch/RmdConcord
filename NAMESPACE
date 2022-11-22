@@ -1,3 +1,4 @@
-export(html_commonmark_document,
+export(getDataposConcordance,
+       html_commonmark_document,
        pdf_commonmark_document)
 importFrom(rmarkdown, html_document, pdf_document)
