@@ -1,7 +1,8 @@
 \name{getDataposConcordance}
 \alias{getDataposConcordance}
 \title{
-Get the concordance from the datapos values.
+Get the concordance from the datapos values and record it in
+a file.
 }
 \description{
 Pandoc can record concordance information in datapos attributes
@@ -34,18 +35,24 @@ concordances.
 }
 }
 \value{
-Called for the side effect of rewriting the concordance.
+Called for the side effect of rewriting the concordance, it returns
+\code{newfilename} invisibly.
 }
 \author{
 Duncan Murdoch
 }
 \examples{
+# This example works on the file inst/sample/Sample.Rmd,
+# which should be a copy of the vignette Sample.Rmd.  This
+# is convenient because RStudio doesn't install vignettes by default.
+
 # First, see the results without concordances:
 
 library(RmdConcord)
 dir <- tempdir()
+infile <- system.file("sample/Sample.Rmd", package = "RmdConcord")
 outfile1 <- file.path(dir, "html_vignette.html")
-rmarkdown::render("~/svn/MyR/RmdConcord/vignettes/Sample.Rmd",
+rmarkdown::render(infile,
                   output_file = outfile1,
                   quiet = TRUE)
 tools:::tidy_validate(outfile1)
@@ -55,11 +62,10 @@ tools:::tidy_validate(outfile1)
 dir <- tempdir()
 outfile2 <- file.path(dir, "commonmark.html")
 outfile3 <- file.path(dir, "patched.html")
-rmarkdown::render("~/svn/MyR/RmdConcord/vignettes/Sample.Rmd",
+rmarkdown::render(infile,
                   output_file = outfile2,
                   output_format = html_commonmark_document(keep_md = TRUE),
                   quiet = TRUE)
-getDataposConcordance(outfile2, outfile3, rename = c("Sample.knit.md" = "commonmark.md"))
+getDataposConcordance(outfile2, outfile3)
 RmdConcord:::tidy_validate(outfile3)
-readLines(file.path(dir, "commonmark.md"))
 }

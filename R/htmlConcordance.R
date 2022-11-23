@@ -258,6 +258,7 @@ getDataposConcordance <- function(filename, newfilename,
     srcfile <- srcfile[-keep]
   }
   writeLines(lines, newfilename)
+  invisible(newfilename)
 }
 
 setwd("~/temp")

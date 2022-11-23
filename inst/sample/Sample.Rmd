@@ -1,0 +1,31 @@
+---
+title: "Sample"
+output: 
+ rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Sample}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This is a sample vignette that contains an error which will be detected
+by HTML Tidy.
+
+The error is the use of a non-existent tag, "foobar":
+
+<foobar>
+
+Run `example(getDataposConcordance)` to see before and after reports.
+
+Still to do:  We need to get `knitr` to output concordance comments,
+so that the intermediate Markdown file refers to this Rmd file.  For
+now, we enter it by hand:
+
+<!-- concordance::Sample.Rmd:1 9 1 1 6 14 1 -->
