@@ -1,63 +1,6 @@
 # -------------------------------------
 # These functions are taken from R-devel
 
-as.Rconcordance <- function(x, ...) {
-  UseMethod("as.Rconcordance")
-}
-
-# This takes concordance strings and combines them
-# into one concordance object.
-
-as.Rconcordance.default <- function(x, ...) {
-  # clean comments etc.
-  s <- sub("^.*(concordance){1}?", "concordance", sub("[^[:digit:]]*$", "", x))
-  s <- grep("^concordance:", s, value = TRUE)
-  if (!length(s))
-    return(NULL)
-  result <- stringToConcordance(s[1])
-  for (line in s[-1])
-    result <- addConcordance(result, line)
-  result
-}
-
-# This takes one concordance string and produces a single concordance
-# object
-
-stringToConcordance <- function(s) {
-  split <- strsplit(s, ":")[[1]]
-  targetfile <- split[2]
-  srcFile <- split[3]
-  if (length(split) == 4) {
-    ofs <- 0
-    vi <- 4
-  } else {
-    ofs <- as.integer(sub("^ofs ([0-9]+)", "\\1", split[4]))
-    vi <- 5
-  }
-  values <- as.integer(strsplit(split[vi], " ")[[1]])
-  firstline <- values[1]
-  rledata <- matrix(values[-1], nrow = 2)
-  rle <- structure(list(lengths=rledata[1,], values=rledata[2,]), class="rle")
-  diffs <- inverse.rle(rle)
-  srcLines <- c(firstline, firstline + cumsum(diffs))
-  structure(list(offset = ofs, srcFile = srcFile, srcLine = srcLines),
-            class = "Rconcordance")
-}
-
-# This modifies an existing concordance object to incorporate
-# one new concordance string
-
-addConcordance <- function(conc, s) {
-  prev <- stringToConcordance(s)
-  if (!is.null(prev)) {
-    conc$srcFile <- rep_len(conc$srcFile, length(conc$srcLine))
-    i <- seq_along(prev$srcLine)
-    conc$srcFile[prev$offset + i] <- prev$srcFile
-    conc$srcLine[prev$offset + i] <- prev$srcLine
-  }
-  conc
-}
-
 # This modifies an existing concordance by following links specified
 # in a previous one.
 
@@ -90,40 +33,6 @@ followConcordance <- function(conc, prevConcordance) {
                            prevLines[curLines])
   }
   conc
-}
-
-as.character.Rconcordance <- function(x,
-                                      targetfile = "",
-                                      ...) {
-  concordance <- x
-  offset <- concordance$offset
-  src <- concordance$srcLine
-
-  result <- character()
-
-  srcfile <- rep_len(concordance$srcFile, length(src))
-
-  while (length(src)) {
-    first <- src[1]
-    if (length(unique(srcfile)) > 1)
-      n <- which(srcfile != srcfile[1])[1] - 1
-    else
-      n <- length(srcfile)
-
-    vals <- with(rle(diff(src[seq_len(n)])), as.numeric(rbind(lengths, values)))
-    result <- c(result, paste0("concordance:",
-                               targetfile, ":",
-                               srcfile[1], ":",
-                               if (offset) paste0("ofs ", offset, ":"),
-                               concordance$srcLine[1], " ",
-                               paste(vals, collapse = " ")
-    ))
-    offset <- offset + n
-    drop <- seq_len(n)
-    src <- src[-drop]
-    srcfile <- srcfile[-drop]
-  }
-  result
 }
 
 tidy_validate <-
@@ -160,33 +69,8 @@ tidy_validate <-
     result
   }
 
-# This function takes a location in a file and uses a concordance
-# object to find the corresponding location in the source for that
-# file.
-
-matchConcordance <- function(linenum, concordance) {
-  if (!all(c("offset", "srcLine", "srcFile") %in% names(concordance)))
-    stop("concordance is not valid")
-  linenum <- as.numeric(linenum)
-  srcLines <- concordance$srcLine
-  srcFile <- rep_len(concordance$srcFile, length(srcLines))
-  offset <- concordance$offset
-
-  result <- matrix(character(), length(linenum), 2,
-                   dimnames = list(NULL,
-                                   c("srcFile", "srcLine")))
-  for (i in seq_along(linenum)) {
-    if (linenum[i] <= concordance$offset)
-      result[i,] <- c("", "")
-    else
-      result[i,] <- c(srcFile[linenum[i] - offset],
-                      with(concordance, srcLine[linenum[i] - offset]))
-  }
-  result
-}
 # End of R-devel borrowings
 # -----------------------------------------------------------
-
 
 getDataposConcordance <- function(filename, newfilename,
                                   rename = NULL,

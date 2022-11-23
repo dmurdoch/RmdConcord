@@ -2,3 +2,11 @@ export(getDataposConcordance,
        html_commonmark_document,
        pdf_commonmark_document)
 importFrom(rmarkdown, html_document, pdf_document)
+
+if (getRversion() >= "4.3.0") {
+  importFrom(tools, as.Rconcordance)
+  importFrom(tools, matchConcordance)
+} else {
+  importFrom(backports, as.Rconcordance)
+  importFrom(backports, matchConcordance)
+}

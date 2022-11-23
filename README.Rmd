@@ -26,10 +26,15 @@ Thanks!
 
 ## Installation
 
+This version of `RmdConcord` makes use of some functions that
+will be released in R 4.3.0.  They are available in a development
+version of the `backports` package.
+
 You can install the development version of RmdConcord from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
+devtools::install_github("dmurdoch/backports)
 devtools::install_github("dmurdoch/RmdConcord")
 ```
 
@@ -40,4 +45,11 @@ the output YAML to `RmdConcord::html_commonmark_document`.
 
 ```{yaml example}
 output: RmdConcord::html_commonmark_document
+```
+
+This is used in the `Sample.Rmd` vignette.
+
+```{r}
+library(RmdConcord)
+example(getDataposConcordance)
 ```
