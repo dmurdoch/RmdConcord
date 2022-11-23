@@ -9,6 +9,9 @@
 The goal of RmdConcord is to provide support for concordances in R
 Markdown files.
 
+This is based on a suggestion and initial code from Heather Turner.
+Thanks!
+
 ## Installation
 
 You can install the development version of RmdConcord from
