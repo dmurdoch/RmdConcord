@@ -1,5 +1,5 @@
-\name{getDataposConcordance}
-\alias{getDataposConcordance}
+\name{processConcordance}
+\alias{processConcordance}
 \title{
 Get the concordance from the datapos values and record it in
 a file.
@@ -11,7 +11,7 @@ that information, and rewrites it as standard R concordance
 data.
 }
 \usage{
-getDataposConcordance(filename, newfilename,
+processConcordance(filename, newfilename = filename,
                       rename = NULL,
                       followConcordance = TRUE)
 }
@@ -20,13 +20,13 @@ getDataposConcordance(filename, newfilename,
 The filename of the HTML file produced by Pandoc.
 }
   \item{newfilename}{
-A new name in which to write the changed data.
+A filename in which to write the changed data.
 }
   \item{rename}{
 A named character vector.  Names are the names in the \code{datapos}
 attributes; values are the names that should be included in the
-concordance instead, since \pkg{knitr} produces a Markdown
-file but renames it later.
+concordance instead. This might be used since \pkg{knitr} produces a
+Markdown file and renames it later.
   }
   \item{followConcordance}{
 If \code{filename} already contains concordance data, assume
@@ -57,15 +57,18 @@ rmarkdown::render(infile,
                   quiet = TRUE)
 tools:::tidy_validate(outfile1)
 
-# Next, see them with concordances:
+# Next, see them with concordances by setting
+# the output format to use RmdConcord::html_document_with_concordance
+# which post-processes the document with processConcordance.
+# Note that this requires patches to `knitr`, which can be
+# obtained using
+#   install_github("dmurdoch/knitr")
 
 dir <- tempdir()
 outfile2 <- file.path(dir, "commonmark.html")
-outfile3 <- file.path(dir, "patched.html")
 rmarkdown::render(infile,
                   output_file = outfile2,
-                  output_format = html_commonmark_document(keep_md = TRUE),
+                  output_format = RmdConcord::html_document_with_concordance(),
                   quiet = TRUE)
-getDataposConcordance(outfile2, outfile3)
-RmdConcord:::tidy_validate(outfile3)
+RmdConcord:::tidy_validate(outfile2)
 }

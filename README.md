@@ -30,58 +30,59 @@ devtools::install_github("dmurdoch/RmdConcord")
 ## Example
 
 To embed concordances in an R Markdown HTML document, change the output
-YAML to `RmdConcord::html_commonmark_document`.
+YAML to `RmdConcord::html_document_with_concordance`.
 
 ``` yaml
-output: RmdConcord::html_commonmark_document
+output: RmdConcord::html_document_with_concordance
 ```
 
 This is used in the `Sample.Rmd` vignette.
 
 ``` r
 library(RmdConcord)
-example(getDataposConcordance)
+example(processConcordance)
 #> 
-#> gtDtpC> # This example works on the file inst/sample/Sample.Rmd,
-#> gtDtpC> # which should be a copy of the vignette Sample.Rmd.  This
-#> gtDtpC> # is convenient because RStudio doesn't install vignettes by default.
-#> gtDtpC> 
-#> gtDtpC> # First, see the results without concordances:
-#> gtDtpC> 
-#> gtDtpC> library(RmdConcord)
+#> prcssC> # This example works on the file inst/sample/Sample.Rmd,
+#> prcssC> # which should be a copy of the vignette Sample.Rmd.  This
+#> prcssC> # is convenient because RStudio doesn't install vignettes by default.
+#> prcssC> 
+#> prcssC> # First, see the results without concordances:
+#> prcssC> 
+#> prcssC> library(RmdConcord)
 #> 
-#> gtDtpC> dir <- tempdir()
+#> prcssC> dir <- tempdir()
 #> 
-#> gtDtpC> infile <- system.file("sample/Sample.Rmd", package = "RmdConcord")
+#> prcssC> infile <- system.file("sample/Sample.Rmd", package = "RmdConcord")
 #> 
-#> gtDtpC> outfile1 <- file.path(dir, "html_vignette.html")
+#> prcssC> outfile1 <- file.path(dir, "html_vignette.html")
 #> 
-#> gtDtpC> rmarkdown::render(infile,
-#> gtDtpC+                   output_file = outfile1,
-#> gtDtpC+                   quiet = TRUE)
+#> prcssC> rmarkdown::render(infile,
+#> prcssC+                   output_file = outfile1,
+#> prcssC+                   quiet = TRUE)
 #> 
-#> gtDtpC> tools:::tidy_validate(outfile1)
+#> prcssC> tools:::tidy_validate(outfile1)
 #>      line  col msg                                       txt              
-#> [1,] "245" "4" "Error: <foobar> is not recognized!"      "<p><foobar></p>"
-#> [2,] "245" "4" "Warning: discarding unexpected <foobar>" "<p><foobar></p>"
-#> [3,] "245" "1" "Warning: trimming empty <p>"             "<p><foobar></p>"
+#> [1,] "365" "4" "Error: <foobar> is not recognized!"      "<p><foobar></p>"
+#> [2,] "365" "4" "Warning: discarding unexpected <foobar>" "<p><foobar></p>"
+#> [3,] "365" "1" "Warning: trimming empty <p>"             "<p><foobar></p>"
 #> 
-#> gtDtpC> # Next, see them with concordances:
-#> gtDtpC> 
-#> gtDtpC> dir <- tempdir()
+#> prcssC> # Next, see them with concordances by setting
+#> prcssC> # the output format to use RmdConcord::html_document_with_concordance
+#> prcssC> # which post-processes the document with processConcordance.
+#> prcssC> # Note that this requires patches to `knitr`, which can be
+#> prcssC> # obtained using
+#> prcssC> #   install_github("dmurdoch/knitr")
+#> prcssC> 
+#> prcssC> dir <- tempdir()
 #> 
-#> gtDtpC> outfile2 <- file.path(dir, "commonmark.html")
+#> prcssC> outfile2 <- file.path(dir, "commonmark.html")
 #> 
-#> gtDtpC> outfile3 <- file.path(dir, "patched.html")
+#> prcssC> rmarkdown::render(infile,
+#> prcssC+                   output_file = outfile2,
+#> prcssC+                   output_format = RmdConcord::html_document_with_concordance(),
+#> prcssC+                   quiet = TRUE)
 #> 
-#> gtDtpC> rmarkdown::render(infile,
-#> gtDtpC+                   output_file = outfile2,
-#> gtDtpC+                   output_format = html_commonmark_document(keep_md = TRUE),
-#> gtDtpC+                   quiet = TRUE)
-#> 
-#> gtDtpC> getDataposConcordance(outfile2, outfile3)
-#> 
-#> gtDtpC> RmdConcord:::tidy_validate(outfile3)
+#> prcssC> RmdConcord:::tidy_validate(outfile2)
 #>      line  col msg                                       txt       
 #> [1,] "319" "1" "Error: <foobar> is not recognized!"      "<foobar>"
 #> [2,] "319" "1" "Warning: discarding unexpected <foobar>" "<foobar>"

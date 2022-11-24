@@ -1,7 +1,7 @@
 ---
 title: "Sample"
 output: 
- rmarkdown::html_vignette
+  rmarkdown::html_document
 vignette: >
   %\VignetteIndexEntry{Sample}
   %\VignetteEngine{knitr::rmarkdown}
@@ -22,4 +22,4 @@ The error is the use of a non-existent tag, "foobar":
 
 <foobar>
 
-Run `example(getDataposConcordance)` to see before and after reports.
+Run `example(processConcordance)` to see before and after reports.

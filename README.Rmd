@@ -4,7 +4,7 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
+```{r setupREADME, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -41,15 +41,15 @@ devtools::install_github("dmurdoch/RmdConcord")
 ## Example
 
 To embed concordances in an R Markdown HTML document, change
-the output YAML to `RmdConcord::html_commonmark_document`.
+the output YAML to `RmdConcord::html_document_with_concordance`.
 
-```{yaml example}
-output: RmdConcord::html_commonmark_document
+```yaml
+output: RmdConcord::html_document_with_concordance
 ```
 
 This is used in the `Sample.Rmd` vignette.
 
-```{r}
+```{r example}
 library(RmdConcord)
-example(getDataposConcordance)
+example(processConcordance)
 ```
