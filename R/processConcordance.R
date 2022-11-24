@@ -1,5 +1,5 @@
 
-processConcordance <- function(filename, newfilename,
+processConcordance <- function(filename, newfilename = filename,
                                   rename = NULL,
                                   followConcordance = TRUE) {
   # read the file
