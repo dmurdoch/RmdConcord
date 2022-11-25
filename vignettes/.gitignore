@@ -1,2 +1,7 @@
 *.html
 *.R
+*.aux
+*.log
+*.pdf
+*.tex
+*.synctex.gz
