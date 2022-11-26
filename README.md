@@ -12,18 +12,31 @@ Markdown files.
 This is based on a suggestion and initial code from Heather Turner.
 Thanks!
 
+The main use for this in HTML output is to help deciphering HTML Tidy
+error messages. If you replace the original driver with this one,
+`R CMD check` should report locations in the original `.Rmd` file.
+
+With PDF output, this will enable Synctex output, and patch it to refer
+to the `.Rmd` file. This is helpful in previewers like the one in
+TeXworks that can link source to a preview.
+
 ## Installation
 
 This version of `RmdConcord` makes use of some functions that will be
 released in R 4.3.0. They are available in a development version of the
 `backports` package.
 
+It also requires patches to `knitr` to support concordances in R
+Markdown files. These are also currently in a development version of
+that package.
+
 You can install the development version of RmdConcord from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("dmurdoch/backports)
+devtools::install_github("dmurdoch/backports")
+devtools::install_github("dmurdoch/knitr")
 devtools::install_github("dmurdoch/RmdConcord")
 ```
 

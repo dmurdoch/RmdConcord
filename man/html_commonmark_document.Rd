@@ -15,11 +15,20 @@ in your own documents.
 \usage{
 html_document_with_concordance(sourcepos = TRUE, ...)
 html_vignette_with_concordance(sourcepos = TRUE, ...)
-pdf_document_with_concordance(sourcepos = TRUE, ...)
+pdf_document_with_concordance(latex_engine = "pdflatex",
+           sourcepos = TRUE,
+           defineSconcordance = TRUE, ...)
 }
 \arguments{
   \item{sourcepos}{
 Whether to include source position information.
+}
+  \item{latex_engine}{
+Command to convert \file{.tex} file to \file{.pdf}.
+}
+  \item{defineSconcordance}{
+If \code{TRUE}, insert a definition of the \verb{\Sconcordance}
+macro just before \verb{\begin{document}}.
 }
   \item{\dots}{
 Other arguments to pass to the base driver.

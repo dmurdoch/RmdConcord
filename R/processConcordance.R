@@ -74,7 +74,8 @@ processConcordance <- function(filename, newfilename = filename,
 
 processLatexConcordance <- function(filename, newfilename = filename,
                                rename = NULL,
-                               followConcordance = NULL) {
+                               followConcordance = NULL,
+                               defineSconcordance = TRUE) {
   # read the file
   lines <- readLines(filename)
   prevConcordance <- NULL
@@ -87,9 +88,10 @@ processLatexConcordance <- function(filename, newfilename = filename,
     if (length(conc))
       prevConcordance <- as.Rconcordance(conc)
   }
-  # Insert \Sconcordance definition
-  beginDoc <- match(TRUE, lines == "\\begin{document}")
-  lines <- append(lines, r"(\newcommand{\Sconcordance}[1]{%
+  if (defineSconcordance) {
+    # Insert \Sconcordance definition
+    beginDoc <- match(TRUE, lines == "\\begin{document}")
+    lines <- append(lines, r"(\newcommand{\Sconcordance}[1]{%
 \ifx\pdfoutput\undefined%
 \csname newcount\endcsname\pdfoutput\fi%
 \ifcase\pdfoutput\special{#1}%
@@ -102,7 +104,7 @@ processLatexConcordance <- function(filename, newfilename = filename,
 \fi}
 
 )", beginDoc - 1)
-
+  }
   # insert line breaks
   lines <- gsub("\\datapos{", "%\n\\datapos{", lines, fixed = TRUE)
   # don't lose blank lines; they separate paragraphs.

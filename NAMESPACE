@@ -2,9 +2,11 @@ export(processConcordance,
        html_document_with_concordance,
        html_vignette_with_concordance,
        html_with_concordance,
-       pdf_document_with_concordance)
+       pdf_document_with_concordance,
+       pdf_with_concordance)
 
 importFrom(rmarkdown, html_document, html_vignette, pdf_document)
+importFrom(tools, sans_ext = file_path_sans_ext)
 
 if (getRversion() >= "4.3.0") {
   importFrom(tools, as.Rconcordance)
