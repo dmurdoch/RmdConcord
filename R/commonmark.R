@@ -71,7 +71,7 @@ pdf_with_concordance <- function(driver) {
         # Modify the .tex file
         processLatexConcordance(outfile, followConcordance = concordanceFile, defineSconcordance = defineSconcordance)
 
-        if (orig_ext != ".tex") {
+        if (length(orig_ext) != 1 || orig_ext != ".tex") {
           # Run pdflatex or other with Synctex output
           args <- c("-synctex=1", outfile)
           system2(latex_engine, args)
