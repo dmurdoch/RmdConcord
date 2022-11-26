@@ -3,7 +3,7 @@ test_knitr <- function() {
   knitr::opts_knit$set(concordance = TRUE, rmarkdown.pandoc.to = "markdown")
   on.exit(knitr::opts_knit$set(save))
   if (!knitr:::concord_mode())
-    stop("RmdConcord requires patches to knitr that are available using\n  remotes::install_github('dmurdoch/knitr')")
+    stop("This driver requires patches to knitr that are available using\n  remotes::install_github('dmurdoch/knitr')")
 }
 
 fix_pandoc_from_options <- function(from, sourcepos) {
@@ -66,6 +66,8 @@ pdf_with_concordance <- function(driver) {
       # Replace the old post_processor with ours
       oldpost <- res$post_processor
       res$post_processor <- function(yaml, infile, outfile, ...) {
+        workdir <- dirname(infile)
+
         # We should have a concordance file
         concordanceFile <- paste0(sans_ext(infile), "-concordance.tex")
         # Modify the .tex file
@@ -73,7 +75,9 @@ pdf_with_concordance <- function(driver) {
 
         if (length(orig_ext) != 1 || orig_ext != ".tex") {
           # Run pdflatex or other with Synctex output
-          args <- c("-synctex=1", outfile)
+          args <- c("-synctex=1",
+                    if (workdir != ".") c("-output-directory", workdir),
+                    outfile)
           system2(latex_engine, args)
 
           # Apply concordance changes to Synctex file
