@@ -22,6 +22,10 @@ TeXworks that can link source to a preview.
 
 ## Installation
 
+NB: development has for now moved to the `patchDVI` project. These
+instructions have been updated to reflect that change, but the actual
+code in this repository has not!
+
 This version of `RmdConcord` makes use of some functions that will be
 released in R 4.3.0. They are available in a development version of the
 `backports` package.
@@ -37,16 +41,17 @@ You can install the development version of RmdConcord from
 # install.packages("devtools")
 devtools::install_github("dmurdoch/backports")
 devtools::install_github("dmurdoch/knitr")
-devtools::install_github("dmurdoch/RmdConcord")
+devtools::install_github("dmurdoch/patchDVI@RmdConcord")
 ```
 
 ## Example
 
 To embed concordances in an R Markdown HTML document, change the output
-YAML to `RmdConcord::html_document_with_concordance`.
+YAML to `patchDVI::html_documentC`. For a PDF document, use
+`patchDVI::pdf_documentC`.
 
 ``` yaml
-output: RmdConcord::html_document_with_concordance
+output: patchDVI::html_documentC
 ```
 
 This is used in the `Sample.Rmd` vignette.
