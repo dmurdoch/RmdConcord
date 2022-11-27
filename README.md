@@ -6,6 +6,11 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
+**NB: development has for now moved to the `patchDVI` project at
+<https://github.com/dmurdoch/patchDVI/tree/RmdConcord>. The installation
+instructions have been updated to reflect that change, but the rest of
+the code in this repository has not!**
+
 The goal of RmdConcord is to provide support for concordances in R
 Markdown files.
 
@@ -21,10 +26,6 @@ to the `.Rmd` file. This is helpful in previewers like the one in
 TeXworks that can link source to a preview.
 
 ## Installation
-
-NB: development has for now moved to the `patchDVI` project. These
-instructions have been updated to reflect that change, but the actual
-code in this repository has not!
 
 This version of `RmdConcord` makes use of some functions that will be
 released in R 4.3.0. They are available in a development version of the
