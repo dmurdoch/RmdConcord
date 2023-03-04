@@ -11,7 +11,7 @@ one in most respects, but adds an argument \code{sourcepos}
 If that argument is \code{TRUE} (the default) then concordances
 are handled by the new driver.
 
-This function is used to produce \code{\link{html_document_with_concordance}} and similar drivers
+These functions are used to produce \code{\link{html_documentC}} and similar drivers
 in this package, but should also work on other drivers that produce
 HTML output using Pandoc.
 }

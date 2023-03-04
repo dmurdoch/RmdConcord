@@ -1,23 +1,25 @@
-\name{html_document_with_concordance}
-\alias{html_document_with_concordance}
-\alias{html_vignette_with_concordance}
-\alias{pdf_document_with_concordance}
+\name{document_with_concordance}
+\alias{html_documentC}
+\alias{html_vignetteC}
+\alias{pdf_documentC}
 \title{
 R Markdown drivers to add concordance
 }
 \description{
-These drivers output Commonmark rather than Pandoc Markdown.
+These drivers replace the like-named \pkg{rmarkdown}
+drivers with ones that output Commonmark rather than Pandoc Markdown.
 Commonmark is a dialect of Markdown.  The Pandoc driver
 for Commonmark supports output of source position information.
 By using this function as your output driver, you can get that
 in your own documents.
 }
 \usage{
-html_document_with_concordance(sourcepos = TRUE, ...)
-html_vignette_with_concordance(sourcepos = TRUE, ...)
-pdf_document_with_concordance(latex_engine = "pdflatex",
+html_documentC(sourcepos = TRUE, ...)
+html_vignetteC(sourcepos = TRUE, ...)
+pdf_documentC(latex_engine = "pdflatex",
            sourcepos = TRUE,
-           defineSconcordance = TRUE, ...)
+           defineSconcordance = TRUE,
+           ...)
 }
 \arguments{
   \item{sourcepos}{
@@ -35,8 +37,10 @@ Other arguments to pass to the base driver.
 }
 }
 \details{
-Each driver modifies the standard \pkg{rmarkdown} driver whose
-name precedes \dQuote{with_concordance}, e.g. \code{html_document_with_concordance} is similar to \code{\link[rmarkdown]{html_document}}.
+Each driver modifies the standard \pkg{rmarkdown} driver, e.g.
+\code{patchDVI::html_documentC} is similar to
+\code{\link[rmarkdown]{html_document}}, but uses Commonmark
+and adds concordances.
 }
 \value{
 An R Markdown output format object which will add concordance

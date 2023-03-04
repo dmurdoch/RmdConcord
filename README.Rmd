@@ -18,11 +18,6 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-**NB:  development has for now moved to the `patchDVI` project at https://github.com/dmurdoch/patchDVI. 
-The installation instructions have been updated to reflect that
-change, but the rest of the
-code in this repository has not!**
-
 
 The goal of RmdConcord is to provide support for concordances
 in R Markdown files.
@@ -31,12 +26,19 @@ This is based on a suggestion and initial code from Heather Turner.
 Thanks!
 
 The main use for this in HTML output is to help deciphering HTML Tidy
-error messages.  If you replace the original driver with this one, 
+error messages.  If you replace the original driver with `patchDVI::html_documentC`, 
 `R CMD check` should report locations in the original `.Rmd` file.
 
-With PDF output, this will enable Synctex output, and patch it
+With PDF output using `patchDVI::pdf_documentC`, Synctex output will be enabled, and it will be patched
 to refer to the `.Rmd` file.  This is helpful in previewers like
 the one in TeXworks that can link source to a preview.
+
+The `RmdConcord` package also has drivers with the 
+same names as the ones described above.  These are
+intended to be used by other packages rather than
+directly by users:  they will leave concordance
+records in the file for later handling.
+
 
 ## Installation
 
@@ -44,17 +46,12 @@ This version of `RmdConcord` makes use of some functions that
 will be released in R 4.3.0.  They are available in a development
 version of the `backports` package.
 
-It also requires patches to `knitr` to support concordances in
-R Markdown files.  These are also currently in a development version 
-of that package.
-
 You can install the development version of RmdConcord from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("dmurdoch/backports")
-devtools::install_github("dmurdoch/knitr")
-devtools::install_github("dmurdoch/patchDVI")
+devtools::install_github("dmurdoch/RmdConcord")
 ```
 
 ## Example
