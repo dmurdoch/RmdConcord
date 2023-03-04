@@ -85,9 +85,6 @@ example(processConcordance)
 #> prcssC> # Next, see them with concordances by setting
 #> prcssC> # the output format to use RmdConcord::html_documentC
 #> prcssC> # which post-processes the document with processConcordance.
-#> prcssC> # Note that this requires patches to `knitr`, which can be
-#> prcssC> # obtained using
-#> prcssC> #   install_github("dmurdoch/knitr")
 #> prcssC> 
 #> prcssC> dir <- tempdir()
 #> 
@@ -95,7 +92,7 @@ example(processConcordance)
 #> 
 #> prcssC> rmarkdown::render(infile,
 #> prcssC+                   output_file = outfile2,
-#> prcssC+                   output_format = RmdConcord::html_documentC(),
+#> prcssC+                   output_format = html_documentC(),
 #> prcssC+                   quiet = TRUE)
 #> 
 #> prcssC> RmdConcord:::tidy_validate(outfile2)

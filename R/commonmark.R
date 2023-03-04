@@ -99,4 +99,4 @@ pdf_with_concordance <- function(driver) {
   }
 }
 
-pdf_documentC <- pdf_with_concordance(rmarkdown::pdf_document)
+pdf_documentC0 <- pdf_with_concordance(rmarkdown::pdf_document)

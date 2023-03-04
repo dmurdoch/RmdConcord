@@ -60,15 +60,12 @@ tools:::tidy_validate(outfile1)
 # Next, see them with concordances by setting
 # the output format to use RmdConcord::html_documentC
 # which post-processes the document with processConcordance.
-# Note that this requires patches to `knitr`, which can be
-# obtained using
-#   install_github("dmurdoch/knitr")
 
 dir <- tempdir()
 outfile2 <- file.path(dir, "commonmark.html")
 rmarkdown::render(infile,
                   output_file = outfile2,
-                  output_format = RmdConcord::html_documentC(),
+                  output_format = html_documentC(),
                   quiet = TRUE)
 RmdConcord:::tidy_validate(outfile2)
 }
