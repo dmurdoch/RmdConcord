@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-**NB:  development has for now moved to the `patchDVI` project at https://github.com/dmurdoch/patchDVI/tree/RmdConcord. 
+**NB:  development has for now moved to the `patchDVI` project at https://github.com/dmurdoch/patchDVI. 
 The installation instructions have been updated to reflect that
 change, but the rest of the
 code in this repository has not!**
@@ -54,7 +54,7 @@ You can install the development version of RmdConcord from [GitHub](https://gith
 # install.packages("devtools")
 devtools::install_github("dmurdoch/backports")
 devtools::install_github("dmurdoch/knitr")
-devtools::install_github("dmurdoch/patchDVI@RmdConcord")
+devtools::install_github("dmurdoch/patchDVI")
 ```
 
 ## Example

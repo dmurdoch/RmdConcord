@@ -7,9 +7,9 @@
 <!-- badges: end -->
 
 **NB: development has for now moved to the `patchDVI` project at
-<https://github.com/dmurdoch/patchDVI/tree/RmdConcord>. The installation
-instructions have been updated to reflect that change, but the rest of
-the code in this repository has not!**
+<https://github.com/dmurdoch/patchDVI>. The installation instructions
+have been updated to reflect that change, but the rest of the code in
+this repository has not!**
 
 The goal of RmdConcord is to provide support for concordances in R
 Markdown files.
@@ -42,7 +42,7 @@ You can install the development version of RmdConcord from
 # install.packages("devtools")
 devtools::install_github("dmurdoch/backports")
 devtools::install_github("dmurdoch/knitr")
-devtools::install_github("dmurdoch/patchDVI@RmdConcord")
+devtools::install_github("dmurdoch/patchDVI")
 ```
 
 ## Example
@@ -81,9 +81,9 @@ example(processConcordance)
 #> 
 #> prcssC> tools:::tidy_validate(outfile1)
 #>      line  col msg                                       txt              
-#> [1,] "365" "4" "Error: <foobar> is not recognized!"      "<p><foobar></p>"
-#> [2,] "365" "4" "Warning: discarding unexpected <foobar>" "<p><foobar></p>"
-#> [3,] "365" "1" "Warning: trimming empty <p>"             "<p><foobar></p>"
+#> [1,] "359" "4" "Error: <foobar> is not recognized!"      "<p><foobar></p>"
+#> [2,] "359" "4" "Warning: discarding unexpected <foobar>" "<p><foobar></p>"
+#> [3,] "359" "1" "Warning: trimming empty <p>"             "<p><foobar></p>"
 #> 
 #> prcssC> # Next, see them with concordances by setting
 #> prcssC> # the output format to use RmdConcord::html_document_with_concordance
