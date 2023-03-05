@@ -13,3 +13,4 @@ Imports: rmarkdown, backports (>= 1.4.1-9001), tools
 Suggests: 
     knitr
 VignetteBuilder: knitr, rmarkdown
+Remotes: dmurdoch/backports
