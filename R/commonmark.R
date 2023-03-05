@@ -70,11 +70,11 @@ pdf_with_concordance <- function(driver) {
                                   system.file("rmarkdown/lua/latex-datapos.lua", package = "RmdConcord")
                                   )
       # Pandoc should produce .tex, not go directly to .pdf
-      orig_ext <- res$pandoc$ext
+      res$pandoc$orig_ext <- res$pandoc$ext
       res$pandoc$ext = ".tex"
 
       # Replace the old post_processor with ours
-      oldpost <- res$post_processor
+      res$orig_post_processor <- res$post_processor
       res$post_processor <- function(yaml, infile, outfile, ...) {
         workdir <- dirname(outfile)
         # We should have a concordance file
@@ -84,15 +84,7 @@ pdf_with_concordance <- function(driver) {
         # Modify the .tex file
         processLatexConcordance(outfile, followConcordance = concordanceFile, defineSconcordance = defineSconcordance)
 
-        newoutfile <- outfile
-
-        # Run the old post-processor, if there was one
-
-        if (is.function(oldpost))
-          res <- oldpost(yaml, infile, newoutfile, ...)
-        else
-          res <- newoutfile
-        res
+        outfile
       }
     }
     res
