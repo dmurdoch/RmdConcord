@@ -4,6 +4,8 @@
 # RmdConcord
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/dmurdoch/RmdConcord/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dmurdoch/RmdConcord/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of RmdConcord is to provide support for concordances in R
