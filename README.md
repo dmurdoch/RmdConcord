@@ -16,31 +16,56 @@ Thanks!
 
 The main use for this in HTML output is to help deciphering HTML Tidy
 error messages. If you replace the original driver with
-`patchDVI::html_documentC`, `R CMD check` should report locations in the
-original `.Rmd` file.
+`RmdConcord::html_documentC` (or the identical
+`patchDVI::html_documentC`), `R CMD check` should report locations in
+the original `.Rmd` file.
 
 With PDF output using `patchDVI::pdf_documentC`, Synctex output will be
 enabled, and it will be patched to refer to the `.Rmd` file. This is
 helpful in previewers like the one in TeXworks that can link source to a
-preview.
+preview. This package contains `RmdConcord::pdf_documentC0`, which does
+part of the work (preparing the concordance records) but doesn’t do the
+patching to make previewers work with it.
 
-The `RmdConcord` package also has drivers with the same names as the
-ones described above. These are intended to be used by other packages
-rather than directly by users: they will leave concordance records in
-the file for later handling.
+## Limitations
+
+The Pandoc Commonmark driver is still in development, so some features
+supported in the `rmarkdown` drivers will not be fully supported using
+the drivers from this package. At present I am using Pandoc 2.19.2 and I
+know of the following missing features:
+
+- Citations, e.g. `[@doe99]`
+
+- Raw LaTeX will need to be “fenced”, e.g. entered as
+
+      ```{=latex}
+      LaTeX
+      ```
+
+  (The `\pagebreak` and `\newpage` macros receive special treatment, so
+  they don’t need fencing as long as they are separated by blank lines
+  from text above and below.)
+
+If you notice others, please let me know, e.g. by posting an issue to
+the Github site.
+
+These will not cause errors (Markdown doesn’t ever give errors!), but
+they won’t be handled properly. We suggest using the `patchDVI` drivers
+during early development or to track down obscure bugs, but using the
+`rmarkdown` drivers for regular production.
 
 ## Installation
 
 This version of `RmdConcord` makes use of some functions that will be
 released in R 4.3.0. They are available in a development version of the
-`backports` package.
+`backports` package, which will automatically be installed when you
+install `RmdConcord`.
 
-You can install the development version of RmdConcord from
+You can install the development version of `RmdConcord` from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("dmurdoch/backports")
 devtools::install_github("dmurdoch/RmdConcord")
 ```
 
@@ -54,7 +79,8 @@ YAML to `patchDVI::html_documentC`. For a PDF document, use
 output: patchDVI::html_documentC
 ```
 
-This is used in the `Sample.Rmd` vignette.
+This is used in the `Sample.Rmd` vignette, which contains an error on
+line 23.
 
 ``` r
 library(RmdConcord)
