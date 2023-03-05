@@ -30,7 +30,7 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v2
 
-      - if: runner.os == "Linux"
+      - if: runner.os == 'Linux'
         run: sudo apt install tidy
 
       - uses: r-lib/actions/setup-r@v2
