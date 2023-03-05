@@ -1,8 +1,9 @@
 export(processConcordance,
+       processLatexConcordance,
        html_documentC,
        html_vignetteC,
        html_with_concordance,
-       pdf_documentC,
+       pdf_documentC0,
        pdf_with_concordance)
 
 importFrom(rmarkdown, html_document, html_vignette, pdf_document)

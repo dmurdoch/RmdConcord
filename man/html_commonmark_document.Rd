@@ -1,7 +1,7 @@
-\name{document_with_concordance}
+\name{commonmark_document}
 \alias{html_documentC}
 \alias{html_vignetteC}
-\alias{pdf_documentC}
+\alias{pdf_documentC0}
 \title{
 R Markdown drivers to add concordance
 }
@@ -16,7 +16,7 @@ in your own documents.
 \usage{
 html_documentC(sourcepos = TRUE, ...)
 html_vignetteC(sourcepos = TRUE, ...)
-pdf_documentC(latex_engine = "pdflatex",
+pdf_documentC0(latex_engine = "pdflatex",
            sourcepos = TRUE,
            defineSconcordance = TRUE,
            ...)
@@ -38,9 +38,14 @@ Other arguments to pass to the base driver.
 }
 \details{
 Each driver modifies the standard \pkg{rmarkdown} driver, e.g.
-\code{patchDVI::html_documentC} is similar to
+\code{html_documentC} is similar to
 \code{\link[rmarkdown]{html_document}}, but uses Commonmark
 and adds concordances.
+}
+\note{
+The \code{pdf_documentC0} function adds the concordances,
+but they won't be interpreted by LaTeX or PDF previewers.
+To get that to happen, use \code{patchDVI::\link[patchDVI]{pdf_documentC}}.
 }
 \value{
 An R Markdown output format object which will add concordance
