@@ -1,16 +1,3 @@
-test_rmarkdown <- function() {
-  if (!requireNamespace("knitr", quietly = TRUE))
-    stop("RmdConcord requires knitr to process R Markdown")
-  save <- knitr::opts_knit$get(c("concordance", "rmarkdown.pandoc.to"))
-  knitr::opts_knit$set(concordance = TRUE, rmarkdown.pandoc.to = "markdown")
-  on.exit(knitr::opts_knit$set(save))
-
-  if (!exists("matchConcordance", where = parent.env(environment())))
-    stop("RmdConcord requires the backports package containing matchConcordance()")
-
-  if (!requireNamespace("rmarkdown", quietly = TRUE))
-    stop("patchDVI requires rmarkdown to process R Markdown documents")
-}
 
 fix_pandoc_from_options <- function(from, sourcepos) {
   from <- sub("^markdown", "commonmark_x", from)
@@ -25,7 +12,7 @@ html_with_concordance <- function(driver) {
   force(driver)
   function(sourcepos = TRUE, ...) {
     # Have we got the suggested dependencies?
-    test_rmarkdown()
+    test_packages()
 
     res <- driver(...)
     res$knitr$opts_knit$concordance <- sourcepos
@@ -57,7 +44,7 @@ pdf_with_concordance <- function(driver) {
            ...) {
 
     # Have we got the suggested dependencies?
-    test_rmarkdown()
+    test_packages()
 
     res <- driver(latex_engine = latex_engine, ...)
     res$knitr$opts_knit$concordance <- sourcepos
@@ -70,11 +57,11 @@ pdf_with_concordance <- function(driver) {
                                   system.file("rmarkdown/lua/latex-datapos.lua", package = "RmdConcord")
                                   )
       # Pandoc should produce .tex, not go directly to .pdf
-      res$pandoc$orig_ext <- res$pandoc$ext
+      res$pandoc$RmdConcord_ext <- res$pandoc$ext
       res$pandoc$ext = ".tex"
 
       # Replace the old post_processor with ours
-      res$orig_post_processor <- res$post_processor
+      res$RmdConcord_post_processor <- res$post_processor
       res$post_processor <- function(yaml, infile, outfile, ...) {
         workdir <- dirname(outfile)
         # We should have a concordance file
