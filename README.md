@@ -50,16 +50,15 @@ If you notice others, please let me know, e.g. by posting an issue to
 the Github site.
 
 These will not cause errors (Markdown doesn’t ever give errors!), but
-they won’t be handled properly. We suggest using the `patchDVI` drivers
-during early development or to track down obscure bugs, but using the
-`rmarkdown` drivers for regular production.
+they won’t be handled properly. We suggest using the `RmdConcord` and
+`patchDVI` drivers during early development or to track down obscure
+bugs, but using the `rmarkdown` drivers for regular production.
 
 ## Installation
 
 This version of `RmdConcord` makes use of some functions that will be
-released in R 4.3.0. They are available in a development version of the
-`backports` package, which will automatically be installed when you
-install `RmdConcord`.
+released in R 4.3.0. Those functions have been copied into `RmdConcord`,
+so the package should be compatible with older versions of R.
 
 You can install the development version of `RmdConcord` from
 [GitHub](https://github.com/) with:
@@ -104,11 +103,10 @@ example(processConcordance)
 #> prcssC+                   output_file = outfile1,
 #> prcssC+                   quiet = TRUE)
 #> 
-#> prcssC> tools:::tidy_validate(outfile1)
+#> prcssC> tidy_validate(outfile1)
 #>      line  col msg                                       txt              
 #> [1,] "359" "4" "Error: <foobar> is not recognized!"      "<p><foobar></p>"
 #> [2,] "359" "4" "Warning: discarding unexpected <foobar>" "<p><foobar></p>"
-#> [3,] "359" "1" "Warning: trimming empty <p>"             "<p><foobar></p>"
 #> 
 #> prcssC> # Next, see them with concordances by setting
 #> prcssC> # the output format to use RmdConcord::html_documentC
@@ -123,7 +121,7 @@ example(processConcordance)
 #> prcssC+                   output_format = html_documentC(),
 #> prcssC+                   quiet = TRUE)
 #> 
-#> prcssC> RmdConcord:::tidy_validate(outfile2)
+#> prcssC> tidy_validate(outfile2)
 #>      line  col msg                                       txt       
 #> [1,] "319" "1" "Error: <foobar> is not recognized!"      "<foobar>"
 #> [2,] "319" "1" "Warning: discarding unexpected <foobar>" "<foobar>"

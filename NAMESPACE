@@ -16,6 +16,8 @@ if (getRversion() >= "4.3.0") {
   importFrom(tools, matchConcordance)
 } else {
   S3method(as.Rconcordance, default)
+  S3method(as.character, Rconcordance)
+  S3method(print, Rconcordance)
 }
 
 # else {
