@@ -1,11 +1,12 @@
 \name{processConcordance}
 \alias{processConcordance}
 \title{
-Get the concordance from the datapos values and record it in
+Get the concordance from the "datapos" values and record it in
 a file.
 }
 \description{
-Pandoc can record concordance information in datapos attributes
+Pandoc can record concordance information in
+\code{datapos} attributes
 when converting Commonmark documents to HTML.  This retrieves
 that information, and rewrites it as standard R concordance
 data.

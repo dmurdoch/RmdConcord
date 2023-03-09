@@ -4,7 +4,7 @@
 Process a LaTeX concordance file.
 }
 \description{
-Pandoc can record concordance information in datapos macros
+Pandoc can record concordance information in \code{\\datapos} macros
 when converting Commonmark documents to LaTeX.  This retrieves
 that information, and rewrites it as standard R concordance
 data.
