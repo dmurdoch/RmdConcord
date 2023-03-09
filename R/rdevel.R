@@ -37,6 +37,14 @@ followConcordance <- function(conc, prevConcordance) {
 
 tidy_validate <-
   function(f, tidy = "tidy") {
+    tidy <- Sys.which(tidy)
+    if (length(tidy) > 1 ||
+        is.na(tidy) ||
+        !length(tidy) ||
+        !nchar(tidy)) {
+      warning("HTML tidy not found")
+      return(NULL)
+    }
     z <- suppressWarnings(system2(tidy,
                                   c("-language en", "-qe",
                                     ## <FIXME>
