@@ -1,7 +1,7 @@
 Package: RmdConcord
 Type: Package
 Title: Concordances for R Markdown
-Version: 0.1.1
+Version: 0.1.2
 Author: Duncan Murdoch
 Maintainer: Duncan Murdoch <murdoch.duncan@gmail.com>
 Description: Provides functions for support of concordances in R Markdown documents.
