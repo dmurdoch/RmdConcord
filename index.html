@@ -73,8 +73,8 @@
 
 <p>The goal of RmdConcord is to provide support for concordances in R Markdown files.</p>
 <p>This is based on a suggestion and initial code from Heather Turner. Thanks!</p>
-<p>The main use for this in HTML output is to help deciphering HTML Tidy error messages. If you replace the original driver with <code><a href="reference/html_commonmark_document.html">RmdConcord::html_documentC</a></code> (or the identical <code>patchDVI::html_documentC</code>), <code>R CMD check</code> should report locations in the original <code>.Rmd</code> file.</p>
-<p>With PDF output using <code>patchDVI::pdf_documentC</code>, Synctex output will be enabled, and it will be patched to refer to the <code>.Rmd</code> file. This is helpful in previewers like the one in TeXworks that can link source to a preview. This package contains <code><a href="reference/html_commonmark_document.html">RmdConcord::pdf_documentC0</a></code>, which does part of the work (preparing the concordance records) but doesn’t do the patching to make previewers work with it.</p>
+<p>The main use for this in HTML output is to help deciphering HTML Tidy error messages. If you replace the original driver with <code><a href="reference/html_commonmark_document.html">RmdConcord::html_documentC</a></code>, <code>R CMD check</code> should report locations in the original <code>.Rmd</code> file.</p>
+<p>With PDF output using <code>patchDVI::pdf_documentC</code> (from the soon to be released <code>patchDVI</code> version 1.11.x), Synctex output will be enabled, and it will be patched to refer to the <code>.Rmd</code> file. This is helpful in previewers like the one in TeXworks that can link source to a preview. This package contains <code><a href="reference/html_commonmark_document.html">RmdConcord::pdf_documentC0</a></code>, which does part of the work (preparing the concordance records) but doesn’t do the patching to make previewers work with it.</p>
 <div class="section level2">
 <h2 id="limitations">Limitations<a class="anchor" aria-label="anchor" href="#limitations"></a>
 </h2>
