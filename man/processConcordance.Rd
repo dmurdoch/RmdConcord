@@ -55,7 +55,7 @@ outfile1 <- file.path(dir, "html_vignette.html")
 rmarkdown::render(infile,
                   output_file = outfile1,
                   quiet = TRUE)
-tools:::tidy_validate(outfile1)
+tidy_validate(outfile1)
 
 # Next, see them with concordances by setting
 # the output format to use RmdConcord::html_documentC
@@ -67,5 +67,5 @@ rmarkdown::render(infile,
                   output_file = outfile2,
                   output_format = html_documentC(),
                   quiet = TRUE)
-RmdConcord:::tidy_validate(outfile2)
+tidy_validate(outfile2)
 }

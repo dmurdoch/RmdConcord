@@ -5,7 +5,8 @@ export(processConcordance,
        html_with_concordance,
        pdf_documentC0,
        pdf_with_concordance,
-       test_packages)
+       test_packages,
+       tidy_validate)
 
 importFrom(rmarkdown, html_document, html_vignette, pdf_document)
 importFrom(tools, sans_ext = file_path_sans_ext)
@@ -14,6 +15,10 @@ if (getRversion() >= "4.3.0") {
   importFrom(tools, as.Rconcordance)
   importFrom(tools, matchConcordance)
 } else {
-  importFrom(backports, as.Rconcordance)
-  importFrom(backports, matchConcordance)
+  S3method(as.Rconcordance, default)
 }
+
+# else {
+#  importFrom(backports, as.Rconcordance)
+#  importFrom(backports, matchConcordance)
+#}
