@@ -69,5 +69,81 @@ tidy_validate <-
     result
   }
 
+# These functions should be imported from
+# backports, but it hasn't been updated yet
+
+
+if (getRversion() < "4.3.0") {
+  stringToConcordance <- function(s) {
+    split <- strsplit(s, ":")[[1]]
+    targetfile <- split[2]
+    srcFile <- split[3]
+    if (length(split) == 4) {
+      ofs <- 0
+      vi <- 4
+    } else {
+      ofs <- as.integer(sub("^ofs ([0-9]+)", "\\1", split[4]))
+      vi <- 5
+    }
+    values <- as.integer(strsplit(split[vi], " ")[[1]])
+    firstline <- values[1]
+    rledata <- matrix(values[-1], nrow = 2)
+    rle <- structure(list(lengths=rledata[1,], values=rledata[2,]), class="rle")
+    diffs <- inverse.rle(rle)
+    srcLines <- c(firstline, firstline + cumsum(diffs))
+    structure(list(offset = ofs, srcFile = srcFile, srcLine = srcLines),
+              class = "Rconcordance")
+  }
+
+  addConcordance <- function(conc, s) {
+    prev <- stringToConcordance(s)
+    if (!is.null(prev)) {
+      conc$srcFile <- rep_len(conc$srcFile, length(conc$srcLine))
+      i <- seq_along(prev$srcLine)
+      conc$srcFile[prev$offset + i] <- prev$srcFile
+      conc$srcLine[prev$offset + i] <- prev$srcLine
+    }
+    conc
+  }
+
+  as.Rconcordance <- function(x, ...) {
+    UseMethod("as.Rconcordance")
+  }
+
+  as.Rconcordance.default <- function(x, ...) {
+    # clean comments etc.
+    s <- sub("^.*(concordance){1}?", "concordance", sub("[^[:digit:]]*$", "", x))
+    s <- grep("^concordance:", s, value = TRUE)
+    if (!length(s))
+      return(NULL)
+    result <- stringToConcordance(s[1])
+    for (line in s[-1])
+      result <- addConcordance(result, line)
+    result
+  }
+
+  matchConcordance <- function(linenum, concordance) {
+    if (!all(c("offset", "srcLine", "srcFile") %in% names(concordance)))
+      stop("concordance is not valid")
+    linenum <- as.numeric(linenum)
+    srcLines <- concordance$srcLine
+    srcFile <- rep_len(concordance$srcFile, length(srcLines))
+    offset <- concordance$offset
+
+    result <- matrix(character(), length(linenum), 2,
+                     dimnames = list(NULL,
+                                     c("srcFile", "srcLine")))
+    for (i in seq_along(linenum)) {
+      if (linenum[i] <= concordance$offset)
+        result[i,] <- c("", "")
+      else
+        result[i,] <- c(srcFile[linenum[i] - offset],
+                        with(concordance, srcLine[linenum[i] - offset]))
+    }
+    result
+  }
+
+}
+
 # End of R-devel borrowings
 # -----------------------------------------------------------
