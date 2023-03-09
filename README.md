@@ -16,16 +16,16 @@ Thanks!
 
 The main use for this in HTML output is to help deciphering HTML Tidy
 error messages. If you replace the original driver with
-`RmdConcord::html_documentC` (or the identical
-`patchDVI::html_documentC`), `R CMD check` should report locations in
+`RmdConcord::html_documentC`, `R CMD check` should report locations in
 the original `.Rmd` file.
 
-With PDF output using `patchDVI::pdf_documentC`, Synctex output will be
-enabled, and it will be patched to refer to the `.Rmd` file. This is
-helpful in previewers like the one in TeXworks that can link source to a
-preview. This package contains `RmdConcord::pdf_documentC0`, which does
-part of the work (preparing the concordance records) but doesn’t do the
-patching to make previewers work with it.
+With PDF output using `patchDVI::pdf_documentC` (from the soon to be
+released `patchDVI` version 1.11.x), Synctex output will be enabled, and
+it will be patched to refer to the `.Rmd` file. This is helpful in
+previewers like the one in TeXworks that can link source to a preview.
+This package contains `RmdConcord::pdf_documentC0`, which does part of
+the work (preparing the concordance records) but doesn’t do the patching
+to make previewers work with it.
 
 ## Limitations
 

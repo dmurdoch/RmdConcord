@@ -45,7 +45,8 @@ and adds concordances.
 \note{
 The \code{pdf_documentC0} function adds the concordances,
 but they won't be interpreted by LaTeX or PDF previewers.
-To get that to happen, use \code{patchDVI::\link[patchDVI]{pdf_documentC}}.
+To get that to happen, use \code{patchDVI::pdf_documentC}
+once it is released.
 }
 \value{
 An R Markdown output format object which will add concordance
