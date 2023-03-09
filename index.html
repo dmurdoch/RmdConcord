@@ -87,12 +87,12 @@
 </li>
 </ul>
 <p>If you notice others, please let me know, e.g. by posting an issue to the Github site.</p>
-<p>These will not cause errors (Markdown doesn’t ever give errors!), but they won’t be handled properly. We suggest using the <code>patchDVI</code> drivers during early development or to track down obscure bugs, but using the <code>rmarkdown</code> drivers for regular production.</p>
+<p>These will not cause errors (Markdown doesn’t ever give errors!), but they won’t be handled properly. We suggest using the <code>RmdConcord</code> and <code>patchDVI</code> drivers during early development or to track down obscure bugs, but using the <code>rmarkdown</code> drivers for regular production.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>This version of <code>RmdConcord</code> makes use of some functions that will be released in R 4.3.0. They are available in a development version of the <code>backports</code> package, which will automatically be installed when you install <code>RmdConcord</code>.</p>
+<p>This version of <code>RmdConcord</code> makes use of some functions that will be released in R 4.3.0. Those functions have been copied into <code>RmdConcord</code>, so the package should be compatible with older versions of R.</p>
 <p>You can install the development version of <code>RmdConcord</code> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
@@ -126,11 +126,10 @@
 <span><span class="co">#&gt; prcssC+                   output_file = outfile1,</span></span>
 <span><span class="co">#&gt; prcssC+                   quiet = TRUE)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; prcssC&gt; tools:::tidy_validate(outfile1)</span></span>
+<span><span class="co">#&gt; prcssC&gt; tidy_validate(outfile1)</span></span>
 <span><span class="co">#&gt;      line  col msg                                       txt              </span></span>
 <span><span class="co">#&gt; [1,] "359" "4" "Error: &lt;foobar&gt; is not recognized!"      "&lt;p&gt;&lt;foobar&gt;&lt;/p&gt;"</span></span>
 <span><span class="co">#&gt; [2,] "359" "4" "Warning: discarding unexpected &lt;foobar&gt;" "&lt;p&gt;&lt;foobar&gt;&lt;/p&gt;"</span></span>
-<span><span class="co">#&gt; [3,] "359" "1" "Warning: trimming empty &lt;p&gt;"             "&lt;p&gt;&lt;foobar&gt;&lt;/p&gt;"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; prcssC&gt; # Next, see them with concordances by setting</span></span>
 <span><span class="co">#&gt; prcssC&gt; # the output format to use RmdConcord::html_documentC</span></span>
@@ -145,7 +144,7 @@
 <span><span class="co">#&gt; prcssC+                   output_format = html_documentC(),</span></span>
 <span><span class="co">#&gt; prcssC+                   quiet = TRUE)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; prcssC&gt; RmdConcord:::tidy_validate(outfile2)</span></span>
+<span><span class="co">#&gt; prcssC&gt; tidy_validate(outfile2)</span></span>
 <span><span class="co">#&gt;      line  col msg                                       txt       </span></span>
 <span><span class="co">#&gt; [1,] "319" "1" "Error: &lt;foobar&gt; is not recognized!"      "&lt;foobar&gt;"</span></span>
 <span><span class="co">#&gt; [2,] "319" "1" "Warning: discarding unexpected &lt;foobar&gt;" "&lt;foobar&gt;"</span></span>
