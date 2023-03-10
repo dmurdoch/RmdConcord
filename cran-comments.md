@@ -1,3 +1,9 @@
+Version 0.1.4:
+
+This revision was motivated by comments in the
+previous submission.  Though the problem stated there 
+wasn't actually present, I noti
+
 Version 0.1.3:
 
 This revision addresses comments in the initial
