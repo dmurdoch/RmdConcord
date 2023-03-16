@@ -51,9 +51,13 @@ Duncan Murdoch
 
 library(RmdConcord)
 dir <- tempdir()
+intermediates <- tempfile()
+
 infile <- system.file("sample/Sample.Rmd", package = "RmdConcord")
 outfile1 <- file.path(dir, "html_vignette.html")
+
 rmarkdown::render(infile,
+                  intermediates_dir = intermediates,
                   output_file = outfile1,
                   quiet = TRUE)
 tidy_validate(outfile1)
@@ -65,8 +69,10 @@ tidy_validate(outfile1)
 dir <- tempdir()
 outfile2 <- file.path(dir, "commonmark.html")
 rmarkdown::render(infile,
+                  intermediates_dir = intermediates,
                   output_file = outfile2,
                   output_format = html_documentC(),
                   quiet = TRUE)
 tidy_validate(outfile2)
+unlink(c(intermediates, outfile1, outfile2), recursive = TRUE)
 }
