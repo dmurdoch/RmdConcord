@@ -81,9 +81,41 @@ tidy_validate <-
 # backports, but it hasn't been updated yet
 
 
-if (getRversion() < "4.3.0") {
+# if (getRversion() < "4.3.0") {
+  fixWindowsConcordancePaths <- function(split) {
+    if (length(split) <= 4)
+      return(split)
+    # We are looking for a drive letter which should have been at the start
+    # of the 2nd or 3rd entry, but will be in an entry by itself
+
+    driveletter <- grep("^[a-zA-Z]$", split[2:4]) + 1
+    ofs <- grep("^ofs [[:digit:]]+$", split[4:length(split)]) + 3
+    driveletter <- setdiff(driveletter, ofs - 1)
+
+    if (!length(driveletter))
+      return(split)
+
+    if (!length(ofs) # no ofs record but length is 5 or more
+        || length(split) >= 6) {
+      if (2 %in% driveletter) {
+        split <- c(split[1],
+                   paste(split[2], split[3], sep=":"),
+                   split[4:length(split)])
+        driveletter <- driveletter - 1
+      }
+      if (3 %in% driveletter) {
+        split <- c(split[1:2],
+                   paste(split[3], split[4], sep=":"),
+                   split[5:length(split)])
+      }
+    }
+    split
+  }
+
   stringToConcordance <- function(s) {
     split <- strsplit(s, ":")[[1]]
+    if (.Platform$OS.type == "windows")
+      split <- fixWindowsConcordancePaths(split)
     targetfile <- split[2]
     srcFile <- split[3]
     if (length(split) == 4) {
@@ -192,7 +224,7 @@ if (getRversion() < "4.3.0") {
     result
   }
 
-}
+# }
 
 # End of R-devel borrowings
 # -----------------------------------------------------------
