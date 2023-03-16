@@ -1,3 +1,8 @@
+# RmdConcord 0.1.5
+
+* The `processConcord()` example tried to write to a protected
+location.
+
 # RmdConcord 0.1.4
 
 * Initial release.

@@ -1,7 +1,7 @@
 Package: RmdConcord
 Type: Package
 Title: Concordances for 'R Markdown'
-Version: 0.1.4
+Version: 0.1.5
 Authors@R: c(person("Duncan", "Murdoch", role = c("aut", "cre"),
                      email = "murdoch.duncan@gmail.com"),
               person("Heather", "Turner", role = "ctb",
