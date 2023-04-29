@@ -1,5 +1,7 @@
 # -------------------------------------
-# These functions are taken from R-devel
+# These functions were taken from R-devel before R 4.3.0 was released.
+# At some point they should be put in backports, but it hasn't been
+# updated in a long time...
 
 # This modifies an existing concordance by following links specified
 # in a previous one.

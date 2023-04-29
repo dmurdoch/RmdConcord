@@ -30,7 +30,7 @@ error messages.  If you replace the original driver with `RmdConcord::html_docum
 `R CMD check` should report locations in the original `.Rmd` file.
 
 With PDF output using `patchDVI::pdf_documentC` (from
-the soon to be released `patchDVI` version 1.11.x), Synctex output will be enabled, and it will be patched
+`patchDVI` version 1.11.0 or newer), Synctex output will be enabled, and it will be patched
 to refer to the `.Rmd` file.  This is helpful in previewers like
 the one in TeXworks that can link source to a
 preview. This package contains

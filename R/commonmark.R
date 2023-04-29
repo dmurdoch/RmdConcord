@@ -11,22 +11,21 @@ fix_pandoc_from_options <- function(from, sourcepos) {
 html_with_concordance <- function(driver) {
   force(driver)
   function(sourcepos = TRUE, ...) {
-    # Have we got the suggested dependencies?
-    test_packages()
-
     res <- driver(...)
-    res$knitr$opts_knit$concordance <- sourcepos
-    if (sourcepos) {
-      res$knitr$opts_knit$out_format <- "markdown"
+    if (test_packages(FALSE)) {
+      res$knitr$opts_knit$concordance <- sourcepos
+      if (sourcepos) {
+        res$knitr$opts_knit$out_format <- "markdown"
 
-      oldpost <- res$post_processor
-      res$post_processor <- function(...) {
-        res <- oldpost(...)
-        processConcordance(res, res)
-        res
+        oldpost <- res$post_processor
+        res$post_processor <- function(...) {
+          res <- oldpost(...)
+          processConcordance(res, res)
+          res
+        }
+
+        res$pandoc$from <- fix_pandoc_from_options(res$pandoc$from, sourcepos)
       }
-
-      res$pandoc$from <- fix_pandoc_from_options(res$pandoc$from, sourcepos)
     }
     res
   }
