@@ -8,7 +8,8 @@ export(processConcordance,
        test_packages,
        tidy_validate)
 
-importFrom(rmarkdown, html_document, html_vignette, pdf_document)
+importFrom(rmarkdown, html_document, html_vignette, pandoc_available,
+           pdf_document)
 importFrom(tools, sans_ext = file_path_sans_ext)
 
 if (getRversion() >= "4.3.0") {

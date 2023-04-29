@@ -19,13 +19,13 @@ error messages. If you replace the original driver with
 `RmdConcord::html_documentC`, `R CMD check` should report locations in
 the original `.Rmd` file.
 
-With PDF output using `patchDVI::pdf_documentC` (from the soon to be
-released `patchDVI` version 1.11.x), Synctex output will be enabled, and
-it will be patched to refer to the `.Rmd` file. This is helpful in
-previewers like the one in TeXworks that can link source to a preview.
-This package contains `RmdConcord::pdf_documentC0`, which does part of
-the work (preparing the concordance records) but doesn’t do the patching
-to make previewers work with it.
+With PDF output using `patchDVI::pdf_documentC` (from `patchDVI` version
+1.11.0 or newer), Synctex output will be enabled, and it will be patched
+to refer to the `.Rmd` file. This is helpful in previewers like the one
+in TeXworks that can link source to a preview. This package contains
+`RmdConcord::pdf_documentC0`, which does part of the work (preparing the
+concordance records) but doesn’t do the patching to make previewers work
+with it.
 
 ## Limitations
 
@@ -95,11 +95,14 @@ example(processConcordance)
 #> 
 #> prcssC> dir <- tempdir()
 #> 
+#> prcssC> intermediates <- tempfile()
+#> 
 #> prcssC> infile <- system.file("sample/Sample.Rmd", package = "RmdConcord")
 #> 
 #> prcssC> outfile1 <- file.path(dir, "html_vignette.html")
 #> 
 #> prcssC> rmarkdown::render(infile,
+#> prcssC+                   intermediates_dir = intermediates,
 #> prcssC+                   output_file = outfile1,
 #> prcssC+                   quiet = TRUE)
 #> 
@@ -117,6 +120,7 @@ example(processConcordance)
 #> prcssC> outfile2 <- file.path(dir, "commonmark.html")
 #> 
 #> prcssC> rmarkdown::render(infile,
+#> prcssC+                   intermediates_dir = intermediates,
 #> prcssC+                   output_file = outfile2,
 #> prcssC+                   output_format = html_documentC(),
 #> prcssC+                   quiet = TRUE)
@@ -127,5 +131,7 @@ example(processConcordance)
 #> [2,] "319" "1" "Warning: discarding unexpected <foobar>" "<foobar>"
 #>      srcFile      srcLine
 #> [1,] "Sample.Rmd" "23"   
-#> [2,] "Sample.Rmd" "23"
+#> [2,] "Sample.Rmd" "23"   
+#> 
+#> prcssC> unlink(c(intermediates, outfile1, outfile2), recursive = TRUE)
 ```

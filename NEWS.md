@@ -1,3 +1,7 @@
+# RmdConcord 0.2.0
+
+* Check that a sufficient version of Pandoc is available.
+
 # RmdConcord 0.1.6
 
 * The `processConcord()` example tried to write to a protected
