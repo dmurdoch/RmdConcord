@@ -51,8 +51,7 @@ and adds concordances.
 \note{
 The \code{pdf_documentC0} function adds the concordances,
 but they won't be interpreted by LaTeX or PDF previewers.
-To get that to happen, use \code{patchDVI::pdf_documentC}
-once it is released.
+To get that to happen, use \code{patchDVI::pdf_documentC}.
 
 The concordances produced by \code{html_formatC} tend to
 be off by a few lines as the underlying Commonmark
