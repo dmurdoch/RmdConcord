@@ -39,6 +39,10 @@ html_documentC <- html_with_concordance(rmarkdown::html_document)
 html_vignetteC <- html_with_concordance(rmarkdown::html_vignette)
 
 html_formatC <-function(options = list(sourcepos = TRUE), ...) {
+  if (!requireNamespace("markdown") || packageVersion("markdown") < "1.12.1") {
+    message("markdown 1.12.1 is needed for html_formatC")
+    return(NULL)
+  }
   sourcepos <- options$sourcepos
   if (is.null(sourcepos))
     options$sourcepos <- sourcepos <- TRUE

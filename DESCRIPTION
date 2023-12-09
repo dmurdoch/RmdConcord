@@ -25,4 +25,4 @@ Suggests: markdown (>= 1.12.1)
 VignetteBuilder: knitr, rmarkdown
 SystemRequirements: pandoc (>=2.11.3 with 'commonmark_x' 
   processing and 'sourcepos' extension, needed for vignettes).
-
+Remotes: github::rstudio/markdown

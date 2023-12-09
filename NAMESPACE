@@ -22,7 +22,4 @@ if (getRversion() >= "4.3.0") {
   S3method(print, Rconcordance)
 }
 
-# else {
-#  importFrom(backports, as.Rconcordance)
-#  importFrom(backports, matchConcordance)
-#}
+importFrom("utils", "packageVersion")
