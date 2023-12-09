@@ -8,7 +8,7 @@ processConcordance <- function(filename, newfilename = filename,
   if (followConcordance) {
     # The file may already have a concordance comment if the
     # HTML was produced by R Markdown; chain it onto the one
-    # indicated by the data-pos attributes
+    # indicated by the data-pos (or data-sourcepos) attributes
     conc <- grep("^<!-- concordance:", lines)
     if (length(conc)) {
        prevConcordance <- as.Rconcordance(lines[conc])
@@ -20,18 +20,33 @@ processConcordance <- function(filename, newfilename = filename,
   lines <- unlist(strsplit(lines, "\n", fixed = TRUE))
   srcline <- rep(NA_integer_, length(lines))
   srcfile <- rep(NA_character_, length(lines))
+  # First, try Pandoc commonmarkx:
   regexp <- ".*<[^>]+ data-pos=\"([^\"]*)@([[:digit:]]+):.*"
   datapos <- grep(regexp, lines)
-  if (length(datapos) == 0)
-    stop("No data-pos attributes found.")
-  srcline[datapos] <- as.integer(sub(regexp, "\\2", lines[datapos]))
-  srcfile[datapos] <- sub(regexp, "\\1", lines[datapos])
-  oldname <- names(rename)
+  if (length(datapos) > 0) {
+    srcline[datapos] <- as.integer(sub(regexp, "\\2", lines[datapos]))
+    srcfile[datapos] <- sub(regexp, "\\1", lines[datapos])
+    oldname <- names(rename)
+    # Remove the data-pos records now.  There might be several on a line
+    # but we want to ignore them all
+    lines[datapos] <- gsub("(<[^>]+) data-pos=\"[^\"]+\"", "\\1", lines[datapos])
+  } else {
+    # None there, so try commonmark:
+    regexp <- ".*<[^>]+ data-sourcepos=\"([[:digit:]]+):.*"
+    datapos <- grep(regexp, lines)
+    if (length(datapos) > 0) {
+      srcline[datapos] <- as.integer(sub(regexp, "\\1", lines[datapos]))
+      srcfile[datapos] <- "<input>"
+      oldname <- names(rename)
+      # Remove the data-sourcepos records now.  There might be several on a line
+      # but we want to ignore them all
+      lines[datapos] <- gsub("(<p[^>]*) data-sourcepos=\"[^\"]+\">", "\\1>", lines[datapos])
+    } else
+      stop("No source markers found")
+  }
   for (i in seq_along(rename))
     srcfile[datapos] <- sub(oldname[i], rename[i], srcfile[datapos], fixed = TRUE)
-  # Remove the data-pos records now.  There might be several on a line
-  # but we want to ignore them all
-  lines[datapos] <- gsub("(<[^>]+) data-pos=\"[^\"]+\"", "\\1", lines[datapos])
+
   offset <- 0
   repeat {
     if (all(is.na(srcline)))
@@ -165,3 +180,4 @@ processLatexConcordance <- function(filename, newfilename = filename,
   writeLines(lines, newfilename)
   invisible(newfilename)
 }
+

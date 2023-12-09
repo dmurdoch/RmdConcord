@@ -1,3 +1,8 @@
+# RmdConcord 0.2.1
+
+* Support `markdown::html_format` output via new
+`html_formatC()` function.
+
 # RmdConcord 0.2.0
 
 * Check that a sufficient version of Pandoc is available.

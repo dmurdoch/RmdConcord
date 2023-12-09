@@ -1,6 +1,7 @@
 export(processConcordance,
        processLatexConcordance,
        html_documentC,
+       html_formatC,
        html_vignetteC,
        html_with_concordance,
        pdf_documentC0,
@@ -21,7 +22,4 @@ if (getRversion() >= "4.3.0") {
   S3method(print, Rconcordance)
 }
 
-# else {
-#  importFrom(backports, as.Rconcordance)
-#  importFrom(backports, matchConcordance)
-#}
+importFrom("utils", "packageVersion")
