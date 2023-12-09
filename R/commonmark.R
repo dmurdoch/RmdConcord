@@ -18,8 +18,11 @@ html_with_concordance <- function(driver) {
         res$knitr$opts_knit$out_format <- "markdown"
 
         oldpost <- res$post_processor
-        res$post_processor <- function(...) {
-          res <- oldpost(...)
+        res$post_processor <- function(metadata, input_file, output_file, ...) {
+          if (!is.null(oldpost))
+            res <- oldpost(metadata, input_file, output_file, ...)
+          else
+            res <- output_file
           processConcordance(res, res)
           res
         }
@@ -34,6 +37,30 @@ html_with_concordance <- function(driver) {
 html_documentC <- html_with_concordance(rmarkdown::html_document)
 
 html_vignetteC <- html_with_concordance(rmarkdown::html_vignette)
+
+html_formatC <-function(options = list(sourcepos = TRUE), ...) {
+  sourcepos <- options$sourcepos
+  if (is.null(sourcepos))
+    options$sourcepos <- sourcepos <- TRUE
+  res <- markdown::html_format(options = options, ...)
+  if (test_packages(FALSE)) {
+    res$knitr$opts_knit$concordance <- sourcepos
+    if (sourcepos) {
+      oldpost <- res$post_processor
+      res$post_processor <- function(metadata, input_file, output_file, ...) {
+        if (!is.null(oldpost))
+          res <- oldpost(metadata, input_file, output_file, ...)
+        else
+          res <- output_file
+        processConcordance(res, res)
+        res
+      }
+
+      res$pandoc$from <- fix_pandoc_from_options(res$pandoc$from, sourcepos)
+    }
+  }
+  res
+}
 
 pdf_with_concordance <- function(driver) {
   force(driver)
