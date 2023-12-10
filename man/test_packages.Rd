@@ -8,21 +8,17 @@ This function tests for the presence of packages
 that will support \pkg{RmdConcord} functions.
 }
 \usage{
-test_packages(error = TRUE)
+test_packages(error = TRUE, pandoc = TRUE)
 }
 \arguments{
 \item{error}{If \code{TRUE}, missing
 requirements will result in an error.  If \code{FALSE}, they result in a warning.}
-}
-\note{
-This function will not be needed once all
-requirements can be satisfied by testing
-for sufficient versions of the dependencies.
+\item{pandoc}{Is Pandoc needed?}
 }
 \value{
 A logical value indicating that the
 requirements are present.  Will never return
-\code{FALSE} if \code{stop} is  \code{TRUE},
+\code{FALSE} if \code{error} is  \code{TRUE},
 it will just trigger an error.
 }
 \examples{

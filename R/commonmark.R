@@ -9,7 +9,7 @@ html_formatC <-function(options = list(sourcepos = TRUE), ...) {
   if (is.null(sourcepos))
     options$sourcepos <- sourcepos <- TRUE
   res <- markdown::html_format(options = options, ...)
-  if (test_packages(FALSE)) {
+  if (test_packages(FALSE, pandoc = FALSE)) {
     res$knitr$opts_knit$concordance <- sourcepos
     if (sourcepos) {
       oldpost <- res$post_processor

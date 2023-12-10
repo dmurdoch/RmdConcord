@@ -24,5 +24,6 @@ Imports: rmarkdown, tools,
 Suggests: markdown (>= 1.12.1)
 VignetteBuilder: knitr, rmarkdown
 SystemRequirements: pandoc (>=2.11.3 with 'commonmark_x' 
-  processing and 'sourcepos' extension, needed for vignettes).
+  processing and 'sourcepos' extension, needed for 
+  'rmarkdown' formats).
 Remotes: github::rstudio/markdown
