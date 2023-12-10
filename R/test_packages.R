@@ -8,7 +8,7 @@ test_packages <- function(error = TRUE, pandoc = TRUE) {
 
   if (!pandoc && (!requireNamespace("markdown") ||
                   packageVersion("markdown") < "1.12.1"))
-    message <- c(message, "markdown v 1.12.1 is needed.")
+    message <- c(message, "markdown v 1.12.1 or higher is needed.")
   if (!length(message))
     TRUE
   else if (error)
