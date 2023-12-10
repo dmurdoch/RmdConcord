@@ -57,6 +57,12 @@ The \code{pdf_documentC0} function adds the concordances,
 but they won't be interpreted by LaTeX or PDF previewers.
 To get that to happen, use \code{patchDVI::pdf_documentC}.
 
+The \code{html_formatC} function requires \pkg{markdown}
+version 1.12.1 or higher.  If a lower version of that
+package is installed
+\code{html_formatC} will still run, but will issue a
+warning and not add any concordances.
+
 The concordances produced by \code{html_formatC} tend to
 be off by a few lines as the underlying Commonmark
 processor only issues source position records once per

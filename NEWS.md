@@ -1,4 +1,4 @@
-# RmdConcord 0.2.1
+# RmdConcord 0.3
 
 * Added support for `markdown::html_format()` output via new
 `html_formatC()` function.  
