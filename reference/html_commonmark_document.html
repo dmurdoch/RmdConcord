@@ -24,7 +24,7 @@ A replacement for markdown::latex_format is not planned; see the note below."><!
     
     <a class="navbar-brand me-2" href="../index.html">RmdConcord</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -121,6 +121,11 @@ and adds concordances.</p>
     <p>The <code>pdf_documentC0</code> function adds the concordances,
 but they won't be interpreted by LaTeX or PDF previewers.
 To get that to happen, use <code>patchDVI::pdf_documentC</code>.</p>
+<p>The <code>html_formatC</code> function requires <span class="pkg">markdown</span>
+version 1.12.1 or higher.  If a lower version of that
+package is installed
+<code>html_formatC</code> will still run, but will issue a
+warning and not add any concordances.</p>
 <p>The concordances produced by <code>html_formatC</code> tend to
 be off by a few lines as the underlying Commonmark
 processor only issues source position records once per
