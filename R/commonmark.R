@@ -1,42 +1,4 @@
-
-fix_pandoc_from_options <- function(from, sourcepos) {
-  from <- sub("^markdown", "commonmark_x", from)
-  from <- sub("[+]tex_math_single_backslash", "", from)
-  from <- paste0(from,
-                 "+yaml_metadata_block",
-                 if (sourcepos) "+sourcepos")
-  from
-}
-
-html_with_concordance <- function(driver) {
-  force(driver)
-  function(sourcepos = TRUE, ...) {
-    res <- driver(...)
-    if (test_packages(FALSE)) {
-      res$knitr$opts_knit$concordance <- sourcepos
-      if (sourcepos) {
-        res$knitr$opts_knit$out_format <- "markdown"
-
-        oldpost <- res$post_processor
-        res$post_processor <- function(metadata, input_file, output_file, ...) {
-          if (!is.null(oldpost))
-            res <- oldpost(metadata, input_file, output_file, ...)
-          else
-            res <- output_file
-          processConcordance(res, res)
-          res
-        }
-
-        res$pandoc$from <- fix_pandoc_from_options(res$pandoc$from, sourcepos)
-      }
-    }
-    res
-  }
-}
-
-html_documentC <- html_with_concordance(rmarkdown::html_document)
-
-html_vignetteC <- html_with_concordance(rmarkdown::html_vignette)
+# These functions work with the commonmark package
 
 html_formatC <-function(options = list(sourcepos = TRUE), ...) {
   if (!requireNamespace("markdown") || packageVersion("markdown") < "1.12.1") {
@@ -47,7 +9,7 @@ html_formatC <-function(options = list(sourcepos = TRUE), ...) {
   if (is.null(sourcepos))
     options$sourcepos <- sourcepos <- TRUE
   res <- markdown::html_format(options = options, ...)
-  if (test_packages(FALSE)) {
+  if (test_packages(FALSE, pandoc = FALSE)) {
     res$knitr$opts_knit$concordance <- sourcepos
     if (sourcepos) {
       oldpost <- res$post_processor
@@ -66,46 +28,3 @@ html_formatC <-function(options = list(sourcepos = TRUE), ...) {
   res
 }
 
-pdf_with_concordance <- function(driver) {
-  force(driver)
-  function(latex_engine = "pdflatex",
-           sourcepos = TRUE,
-           defineSconcordance = TRUE,
-           ...) {
-
-    # Have we got the suggested dependencies?
-    test_packages()
-
-    res <- driver(latex_engine = latex_engine, ...)
-    res$knitr$opts_knit$concordance <- sourcepos
-    if (sourcepos) {
-      res$pandoc$from <- fix_pandoc_from_options(res$pandoc$from, sourcepos)
-# res$pandoc$to <- "native"
-      # Add filter to insert \datapos markup
-      res$pandoc$lua_filters <- c(res$pandoc$lua_filters,
-                                  system.file("rmarkdown/lua/pagebreak.lua", package = "RmdConcord"),
-                                  system.file("rmarkdown/lua/latex-datapos.lua", package = "RmdConcord")
-                                  )
-      # Pandoc should produce .tex, not go directly to .pdf
-      res$pandoc$RmdConcord_ext <- res$pandoc$ext
-      res$pandoc$ext = ".tex"
-
-      # Replace the old post_processor with ours
-      res$RmdConcord_post_processor <- res$post_processor
-      res$post_processor <- function(yaml, infile, outfile, ...) {
-        workdir <- dirname(outfile)
-        # We should have a concordance file
-        concordanceFile <- paste0(sans_ext(normalizePath(infile)), "-concordance.tex")
-        origdir <- setwd(workdir)
-        on.exit(setwd(origdir))
-        # Modify the .tex file
-        processLatexConcordance(outfile, followConcordance = concordanceFile, defineSconcordance = defineSconcordance)
-
-        outfile
-      }
-    }
-    res
-  }
-}
-
-pdf_documentC0 <- pdf_with_concordance(rmarkdown::pdf_document)
