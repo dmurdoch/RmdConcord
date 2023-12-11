@@ -24,7 +24,7 @@ HTML output using Pandoc."><!-- mathjax --><script src="https://cdnjs.cloudflare
     
     <a class="navbar-brand me-2" href="../index.html">RmdConcord</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,9 +40,6 @@ HTML output using Pandoc."><!-- mathjax --><script src="https://cdnjs.cloudflare
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/Sample.html">Sample</a>
   </div>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
@@ -100,29 +97,24 @@ HTML output using Pandoc.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">html_with_concordance</span><span class="op">(</span><span class="fu">rmarkdown</span><span class="fu">::</span><span class="va"><a href="https://pkgs.rstudio.com/rmarkdown/reference/html_fragment.html" class="external-link">html_fragment</a></span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (sourcepos = TRUE, ...) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     test_packages()</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     res &lt;- driver(...)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     if (test_packages(FALSE)) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         res$knitr$opts_knit$concordance &lt;- sourcepos</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         if (sourcepos) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             res$knitr$opts_knit$out_format &lt;- "markdown"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             oldpost &lt;- res$post_processor</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             res$post_processor &lt;- function(metadata, input_file, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 output_file, ...) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 if (!is.null(oldpost)) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   res &lt;- oldpost(metadata, input_file, output_file, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                     ...)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 else res &lt;- output_file</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 processConcordance(res, res)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 res</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             res$pandoc$from &lt;- fix_pandoc_from_options(res$pandoc$from, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 sourcepos)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     res$knitr$opts_knit$concordance &lt;- sourcepos</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     if (sourcepos) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         res$knitr$opts_knit$out_format &lt;- "markdown"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         oldpost &lt;- res$post_processor</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         res$post_processor &lt;- function(...) {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             res &lt;- oldpost(...)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             processConcordance(res, res)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             res</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         res$pandoc$from &lt;- fix_pandoc_from_options(res$pandoc$from, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             sourcepos)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     res</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55a8a0df7100&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55a8a0dfbb10&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56323822ade0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x563238227908&gt;</span>
 <span class="r-in"><span><span class="fu">pdf_with_concordance</span><span class="op">(</span><span class="fu">rmarkdown</span><span class="fu">::</span><span class="va"><a href="https://pkgs.rstudio.com/rmarkdown/reference/pdf_document.html" class="external-link">latex_fragment</a></span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> function (latex_engine = "pdflatex", sourcepos = TRUE, defineSconcordance = TRUE, </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ...) </span>
@@ -153,8 +145,8 @@ HTML output using Pandoc.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     res</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55a8a0ee3118&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55a8a0ee67b0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x563238166f70&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x563238164a20&gt;</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

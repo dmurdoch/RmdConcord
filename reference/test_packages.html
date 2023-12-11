@@ -12,7 +12,7 @@ that will support RmdConcord functions."><!-- mathjax --><script src="https://cd
     
     <a class="navbar-brand me-2" href="../index.html">RmdConcord</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,9 +28,6 @@ that will support RmdConcord functions."><!-- mathjax --><script src="https://cd
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/Sample.html">Sample</a>
   </div>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
@@ -60,7 +57,7 @@ that will support <span class="pkg">RmdConcord</span> functions.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">test_packages</span><span class="op">(</span>error <span class="op">=</span> <span class="cn">TRUE</span>, pandoc <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">test_packages</span><span class="op">(</span>error <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -69,17 +66,20 @@ that will support <span class="pkg">RmdConcord</span> functions.</p>
 <dd><p>If <code>TRUE</code>, missing
 requirements will result in an error.  If <code>FALSE</code>, they result in a warning.</p></dd>
 
-<dt>pandoc</dt>
-<dd><p>Is Pandoc needed?</p></dd>
-
 </dl></div>
+    <div class="section level2">
+    <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
+    <p>This function will not be needed once all
+requirements can be satisfied by testing
+for sufficient versions of the dependencies.</p>
+    </div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
 <p>A logical value indicating that the
 requirements are present.  Will never return
-<code>FALSE</code> if <code>error</code> is  <code>TRUE</code>,
+<code>FALSE</code> if <code>stop</code> is  <code>TRUE</code>,
 it will just trigger an error.</p>
     </div>
 

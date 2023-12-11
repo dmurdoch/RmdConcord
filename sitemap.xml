@@ -16,9 +16,6 @@
     <loc>https://dmurdoch.github.io/RmdConcord/index.html</loc>
   </url>
   <url>
-    <loc>https://dmurdoch.github.io/RmdConcord/news/index.html</loc>
-  </url>
-  <url>
     <loc>https://dmurdoch.github.io/RmdConcord/reference/html_commonmark_document.html</loc>
   </url>
   <url>
@@ -35,8 +32,5 @@
   </url>
   <url>
     <loc>https://dmurdoch.github.io/RmdConcord/reference/test_packages.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/RmdConcord/reference/tidy_validate.html</loc>
   </url>
 </urlset>
