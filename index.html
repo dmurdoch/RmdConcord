@@ -5,14 +5,28 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="Provides functions for support of concordances in R Markdown documents.">
+<meta name="description" content="Supports concordances in R Markdown 
+  documents.  This currently allows the original source
+  location in the .Rmd file of errors detected by HTML tidy
+  to be found more easily, and potentially allows forward
+  and reverse search in HTML and LaTeX documents
+  produced from R Markdown.  The LaTeX support
+  has been included in the most recent development 
+  version of the patchDVI package.">
 <title>Concordances for R Markdown • RmdConcord</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Concordances for R Markdown">
-<meta property="og:description" content="Provides functions for support of concordances in R Markdown documents.">
+<meta property="og:description" content="Supports concordances in R Markdown 
+  documents.  This currently allows the original source
+  location in the .Rmd file of errors detected by HTML tidy
+  to be found more easily, and potentially allows forward
+  and reverse search in HTML and LaTeX documents
+  produced from R Markdown.  The LaTeX support
+  has been included in the most recent development 
+  version of the patchDVI package.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -26,7 +40,7 @@
     
     <a class="navbar-brand me-2" href="index.html">RmdConcord</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,6 +57,9 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="articles/Sample.html">Sample</a>
   </div>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="news/index.html">Changelog</a>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -70,8 +87,9 @@
 
 <p>The goal of RmdConcord is to provide support for concordances in R Markdown files.</p>
 <p>This is based on a suggestion and initial code from Heather Turner. Thanks!</p>
-<p>The main use for this in HTML output is to help deciphering HTML Tidy error messages. If you replace the original driver with <code><a href="reference/html_commonmark_document.html">RmdConcord::html_documentC</a></code> (or the identical <code>patchDVI::html_documentC</code>), <code>R CMD check</code> should report locations in the original <code>.Rmd</code> file.</p>
-<p>With PDF output using <code>patchDVI::pdf_documentC</code>, Synctex output will be enabled, and it will be patched to refer to the <code>.Rmd</code> file. This is helpful in previewers like the one in TeXworks that can link source to a preview. This package contains <code><a href="reference/html_commonmark_document.html">RmdConcord::pdf_documentC0</a></code>, which does part of the work (preparing the concordance records) but doesn’t do the patching to make previewers work with it.</p>
+<p>Rmarkdown files (type <code>.Rmd</code>) allow presentation articles to be generated from simple text documents. However, if there are errors, these can be difficult to track back to the originating markdown text because there are often intermediate stages: the R Markdown file is converted to plain Markdown, the plain Markdown is converted to HTML or LaTeX, the LaTeX is converted to PDF. A concordance that allows back-tracking of errors from the later steps is needed.</p>
+<p>The main use for this in HTML output is to help deciphering HTML Tidy error messages. If you replace the original driver with <code><a href="reference/html_commonmark_document.html">RmdConcord::html_documentC</a></code>, <code>R CMD check</code> should report locations in the original <code>.Rmd</code> file.</p>
+<p>With PDF output using <code>patchDVI::pdf_documentC</code> (from <code>patchDVI</code> version 1.11.0 or newer), Synctex output will be enabled, and it will be patched to refer to the <code>.Rmd</code> file. This is helpful in previewers like the one in <a href="https://www.tug.org/texworks/" class="external-link">TeXworks</a> that can link source to a preview. This package contains <code><a href="reference/html_commonmark_document.html">RmdConcord::pdf_documentC0</a></code>, which does part of the work (preparing the concordance records) but doesn’t do the patching to make previewers work with it.</p>
 <div class="section level2">
 <h2 id="limitations">Limitations<a class="anchor" aria-label="anchor" href="#limitations"></a>
 </h2>
@@ -87,12 +105,12 @@
 </li>
 </ul>
 <p>If you notice others, please let me know, e.g. by posting an issue to the Github site.</p>
-<p>These will not cause errors (Markdown doesn’t ever give errors!), but they won’t be handled properly. We suggest using the <code>patchDVI</code> drivers during early development or to track down obscure bugs, but using the <code>rmarkdown</code> drivers for regular production.</p>
+<p>These will not cause errors (Markdown doesn’t ever give errors!), but they won’t be handled properly. We suggest using the <code>RmdConcord</code> and <code>patchDVI</code> drivers during early development or to track down obscure bugs, but using the <code>rmarkdown</code> drivers for regular production.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>This version of <code>RmdConcord</code> makes use of some functions that will be released in R 4.3.0. They are available in a development version of the <code>backports</code> package, which will automatically be installed when you install <code>RmdConcord</code>.</p>
+<p>This version of <code>RmdConcord</code> makes use of some functions that will be released in R 4.3.0. Those functions have been copied into <code>RmdConcord</code>, so the package should be compatible with older versions of R.</p>
 <p>You can install the development version of <code>RmdConcord</code> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
@@ -118,19 +136,21 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; prcssC&gt; dir &lt;- tempdir()</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; prcssC&gt; intermediates &lt;- tempfile()</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; prcssC&gt; infile &lt;- system.file("sample/Sample.Rmd", package = "RmdConcord")</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; prcssC&gt; outfile1 &lt;- file.path(dir, "html_vignette.html")</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; prcssC&gt; rmarkdown::render(infile,</span></span>
+<span><span class="co">#&gt; prcssC+                   intermediates_dir = intermediates,</span></span>
 <span><span class="co">#&gt; prcssC+                   output_file = outfile1,</span></span>
 <span><span class="co">#&gt; prcssC+                   quiet = TRUE)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; prcssC&gt; tools:::tidy_validate(outfile1)</span></span>
+<span><span class="co">#&gt; prcssC&gt; tidy_validate(outfile1)</span></span>
 <span><span class="co">#&gt;      line  col msg                                       txt              </span></span>
 <span><span class="co">#&gt; [1,] "359" "4" "Error: &lt;foobar&gt; is not recognized!"      "&lt;p&gt;&lt;foobar&gt;&lt;/p&gt;"</span></span>
 <span><span class="co">#&gt; [2,] "359" "4" "Warning: discarding unexpected &lt;foobar&gt;" "&lt;p&gt;&lt;foobar&gt;&lt;/p&gt;"</span></span>
-<span><span class="co">#&gt; [3,] "359" "1" "Warning: trimming empty &lt;p&gt;"             "&lt;p&gt;&lt;foobar&gt;&lt;/p&gt;"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; prcssC&gt; # Next, see them with concordances by setting</span></span>
 <span><span class="co">#&gt; prcssC&gt; # the output format to use RmdConcord::html_documentC</span></span>
@@ -141,17 +161,20 @@
 <span><span class="co">#&gt; prcssC&gt; outfile2 &lt;- file.path(dir, "commonmark.html")</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; prcssC&gt; rmarkdown::render(infile,</span></span>
+<span><span class="co">#&gt; prcssC+                   intermediates_dir = intermediates,</span></span>
 <span><span class="co">#&gt; prcssC+                   output_file = outfile2,</span></span>
 <span><span class="co">#&gt; prcssC+                   output_format = html_documentC(),</span></span>
 <span><span class="co">#&gt; prcssC+                   quiet = TRUE)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; prcssC&gt; RmdConcord:::tidy_validate(outfile2)</span></span>
+<span><span class="co">#&gt; prcssC&gt; tidy_validate(outfile2)</span></span>
 <span><span class="co">#&gt;      line  col msg                                       txt       </span></span>
 <span><span class="co">#&gt; [1,] "319" "1" "Error: &lt;foobar&gt; is not recognized!"      "&lt;foobar&gt;"</span></span>
 <span><span class="co">#&gt; [2,] "319" "1" "Warning: discarding unexpected &lt;foobar&gt;" "&lt;foobar&gt;"</span></span>
 <span><span class="co">#&gt;      srcFile      srcLine</span></span>
 <span><span class="co">#&gt; [1,] "Sample.Rmd" "23"   </span></span>
-<span><span class="co">#&gt; [2,] "Sample.Rmd" "23"</span></span></code></pre></div>
+<span><span class="co">#&gt; [2,] "Sample.Rmd" "23"   </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; prcssC&gt; unlink(c(intermediates, outfile1, outfile2), recursive = TRUE)</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -181,7 +204,8 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Duncan Murdoch <br><small class="roles"> Maintainer </small>  </li>
+<li>Duncan Murdoch <br><small class="roles"> Author, maintainer </small>  </li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
 
