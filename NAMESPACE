@@ -6,6 +6,7 @@ export(processConcordance,
        html_with_concordance,
        pdf_documentC0,
        pdf_with_concordance,
+       latex_formatC0,
        test_packages,
        tidy_validate)
 
