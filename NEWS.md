@@ -2,7 +2,8 @@
 
 * Added support for `markdown::html_format()` output via new
 `html_formatC()` function.  
-* Support for `markdown::latex_format()` is not planned.
+* Support for `markdown::latex_format()` is planned,
+but requires an update to the `commonmark` package.
 See `?html_formatC()` for some discussion of the issues.
 
 # RmdConcord 0.2.0

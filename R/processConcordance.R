@@ -90,7 +90,8 @@ processConcordance <- function(filename, newfilename = filename,
 processLatexConcordance <- function(filename, newfilename = filename,
                                rename = NULL,
                                followConcordance = NULL,
-                               defineSconcordance = TRUE) {
+                               defineSconcordance = TRUE,
+                               infile = "input") {
   # read the file
   lines <- readLines(filename)
   prevConcordance <- NULL
@@ -106,7 +107,7 @@ processLatexConcordance <- function(filename, newfilename = filename,
   if (defineSconcordance) {
     # Insert \Sconcordance definition
     beginDoc <- match(TRUE, lines == "\\begin{document}")
-    lines <- append(lines, r"(\newcommand{\Sconcordance}[1]{%
+    lines <- append(lines, strsplit(r"(\newcommand{\Sconcordance}[1]{%
 \ifx\pdfoutput\undefined%
 \csname newcount\endcsname\pdfoutput\fi%
 \ifcase\pdfoutput\special{#1}%
@@ -118,8 +119,32 @@ processLatexConcordance <- function(filename, newfilename = filename,
 \endgroup%
 \fi}
 
-)", beginDoc - 1)
+)", "\n")[[1]], beginDoc - 1)
   }
+  source_regexp <- " %sourcepos\\(([0-9]+):[^)]*\\)"
+  sourcecomments <- any(grepl(source_regexp, lines))
+  if (sourcecomments) {
+    # First, remove the source comments from the
+    # header lines
+    for (i in c('title', 'author', 'date')) {
+      regexp <- paste0("(\\\\", i, "\\{.*)", source_regexp, "}$")
+      lines <- sub(regexp, "\\1}", lines)
+    }
+    srcline <- rep(NA_integer_, length(lines))
+    srcfile <- rep(infile, length(lines))
+    regexp <- paste0(".*", source_regexp, "$")
+    datapos <- grep(regexp, lines)
+    if (length(datapos) == 0)
+      stop("No sourcepos attributes found.")
+    srcline[datapos] <- as.integer(sub(regexp, "\\1", lines[datapos]))
+    oldname <- names(rename)
+    for (i in seq_along(rename))
+      srcfile[datapos] <- sub(oldname[i], rename[i], srcfile[datapos], fixed = TRUE)
+    # Remove the sourcepos records now.
+    regexp <- paste0(source_regexp, "$")
+    lines[datapos] <- sub(regexp, "", lines[datapos])
+  } else {
+
   # insert line breaks
   lines <- gsub("\\datapos{", "%\n\\datapos{", lines, fixed = TRUE)
   # don't lose blank lines; they separate paragraphs.
@@ -139,6 +164,7 @@ processLatexConcordance <- function(filename, newfilename = filename,
   # Remove the data-pos records now.  There might be several on a line
   # but we want to ignore them all
   lines[datapos] <- gsub(regexp, "\\3", lines[datapos])
+  }
   offset <- 0
   repeat {
     if (all(is.na(srcline)))

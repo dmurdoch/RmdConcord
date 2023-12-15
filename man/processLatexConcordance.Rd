@@ -14,7 +14,8 @@ processLatexConcordance(filename,
                         newfilename = filename,
                         rename = NULL,
                         followConcordance = NULL,
-                        defineSconcordance = TRUE)
+                        defineSconcordance = TRUE,
+                        infile = "input")
 }
 \arguments{
   \item{filename}{
@@ -36,6 +37,10 @@ concordances.
 }
   \item{defineSconcordance}{
 Whether to insert the definition of the \verb{\\Sconcordance} macro.
+  }
+  \item{infile}{
+The source file to assume for the concordance if it is
+not given in the file.
   }
 }
 \value{
