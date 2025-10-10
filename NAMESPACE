@@ -13,13 +13,8 @@ importFrom(rmarkdown, html_document, html_vignette, pandoc_available,
            pdf_document)
 importFrom(tools, sans_ext = file_path_sans_ext)
 
-if (getRversion() >= "4.3.0") {
-  importFrom(tools, as.Rconcordance)
-  importFrom(tools, matchConcordance)
-} else {
-  S3method(as.Rconcordance, default)
-  S3method(as.character, Rconcordance)
-  S3method(print, Rconcordance)
-}
+importFrom(tools, as.Rconcordance)
+importFrom(tools, matchConcordance)
+importFrom(tools, followConcordance)
 
 importFrom("utils", "packageVersion")
